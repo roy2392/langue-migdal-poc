@@ -1,0 +1,36 @@
+{
+    "COT": [
+        {
+            "question": "What are 5 different types of proteins involved with the SARS-CoV-2 Infection (R-HSA-9694516)?",
+            "ground_truth": ""
+        },
+        {
+            "question": "How many patients are current smokers?",
+            "ground_truth": ""
+        },
+        {
+            "question": "Which molecules participate in Interleukin-4 and Interleukin-13 signaling?",
+            "ground_truth": ""
+        },
+        {
+            "question": "Which drugs are associated with lung cancer?",
+            "ground_truth": ""
+        },
+        {
+            "question": "According to literature evidence, what properties of the tumor are associated with metagene X activity and EGFR pathway?",
+            "ground_truth": ""
+        },
+        {
+            "question": "Can you search PubMed for evidence around the effects of biomarker use in oncology on clinical trial failure risk",
+            "ground_truth": ""
+        },
+        {
+            "question": "Can you compute the imaging biomarkers for the 2 patients with the lowest gdf15 expression values and then highlight the elongation and sphericity of the tumor with these patients?",
+            "ground_truth": ""
+        },
+        {
+            "question": "What is the best gene biomarker (lowest p value) with overall survival for patients that have undergone chemotherapy? Generate a bar chart of the top 5 gene biomarkers based on their p value and include their names in the x axis.",
+            "ground_truth": ""
+        }
+    ]
+}
