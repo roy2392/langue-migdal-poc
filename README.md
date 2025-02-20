@@ -25,6 +25,8 @@ Screenshots / Code block to include:
 1. Clone this repo in a SageMaker notebook (Link to how to do it)
 2. Clone this repo locally and set up AWS CLI credentials to your AWS account (Link to how to do it)
 
+### Pre-req
+
 ### Option 1: Bring your own agent to evaluate
 1. Bring your existing agent (Currently RAG and Text2SQL evaluations built-in)
 2. Use the provided dataset or create a dataset file for evaluations (Manually or using the generator)

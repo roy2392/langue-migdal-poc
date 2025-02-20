@@ -147,7 +147,7 @@ def get_config() -> Dict[str, Any]:
 
 def create_evaluator(eval_type: str, config: Dict[str, Any], 
                     agent_info: Dict[str, Any], data: Dict[str, Any], trace_id: str, 
-                    session_id: str) -> Any:
+                    session_id: str, trajectory_id: str) -> Any:
     """Create appropriate evaluator based on evaluation type"""
     evaluator_map = {
         'RAG': RAGEvaluator,
@@ -168,6 +168,7 @@ def create_evaluator(eval_type: str, config: Dict[str, Any],
         ground_truth=data['ground_truth'],
         trace_id=trace_id,
         session_id=session_id,
+        trajectory_id = trajectory_id,
         question_id=data['question_id']
     )
 
@@ -199,37 +200,50 @@ def run_evaluation(data_file: str) -> None:
     with open(data_file, 'r') as f:
         data_dict = json.load(f)
         
-        for eval_type, questions in data_dict.items():
-            print(f"Running {eval_type} evaluation")
-            
-            for question_data in questions:
-                trace_id = str(uuid.uuid1())
+        #For each data file, go into each trajectory
+        for trajectoryID, questions in data_dict.items():
+            #Iterate through all the questions in each trajectory
 
-                question_id = question_data['question_id']
-                print(f"Question: {question_id}")
-                
+            #TODO: set a sessionID that will be shared across all questions in a singe trajectoryID
+            
+            #go through each question in each trajectory
+            for question in questions:
+                print(question)
+                #get the evaluation type for the question
+                eval_type = question.get('question_type')
+                question_id = question['question_id']
+
+                print(f"Running {trajectoryID} - {eval_type} - {question_id} evaluation")
+
+                trace_id = str(uuid.uuid1())
+          
+        
+                print(f"Trajectory: {trajectoryID} Question: {question_id}")
+                    
                 try:
                     evaluator = create_evaluator(
                         eval_type=eval_type,
                         config=config,
                         agent_info=agent_info,
-                        data=question_data,
+                        data=question,
                         trace_id=trace_id,
-                        session_id=session_id
+                        session_id=session_id,
+                        trajectory_id= trajectoryID
                     )
-                     
+                    
+                    #TODO: update the trace name to include the trajectory and question type(?) and id
                     results = evaluator.run_evaluation()
                     if results is None:
-                        print(f"Skipping question {question_id} due to evaluation failure")
+                        print(f"Skipping {trajectoryID} question {question_id} due to evaluation failure")
                         time.sleep(60)
                         continue
                         
-                    print(f"Successfully evaluated question {question_id}")
+                    print(f"Successfully evaluated {trajectoryID} question {question_id}")
                     # print(results)
                     time.sleep(60)
                     
                 except Exception as e:
-                    print(f"Failed to evalute for question {question_id}: {str(e)}")
+                    print(f"Failed to evalute for {trajectoryID} question {question_id}: {str(e)}")
                     #if not a bedrock error, continue to next question
                     time.sleep(60)
                     continue
@@ -237,7 +251,7 @@ def run_evaluation(data_file: str) -> None:
                 # TODO: Implement langfuse.flush() functionality
                 except KeyboardInterrupt:
                     sys.exit(0)
-                
+            
 # Driver
 if __name__ == "__main__":
     #Name of the data file

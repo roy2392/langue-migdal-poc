@@ -15,7 +15,8 @@ class ToolEvaluator(ABC):
                  ground_truth: Any,
                  trace_id: str,
                  session_id: str,
-                 question_id: int):
+                 question_id: int,
+                 trajectory_id: str):
         """
         Base class for tool evaluation
         
@@ -37,6 +38,7 @@ class ToolEvaluator(ABC):
         self.trace_id = trace_id
         self.session_id = session_id
         self.question_id = question_id
+        self.trajectory_id = trajectory_id
         self.clients = config.get('clients', {})
         self.langfuse = Langfuse()
         
@@ -100,7 +102,7 @@ class ToolEvaluator(ABC):
             id=self.trace_id,
             session_id=self.session_id,
             input=self.question,
-            name=f"{self.eval_type} - Question {self.question_id}",
+            name=f"{self.trajectory_id}: {self.eval_type} - Question {self.question_id}",
             user_id=self.config['AGENT_ID'],
             tags=[self.eval_type, self.agent_info['agentModel'], self.agent_info['agentType']]
         )

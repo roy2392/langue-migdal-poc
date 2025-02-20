@@ -2,6 +2,9 @@
 
 You can choose one or both RAG and Text2SQL sample agent to try out evaluations
 
+## Pre-req
+
+
 ## RAG / Text2SQL Agent setup
 
 1. Run through the RAG/Text2SQL notebook to create the agents in your AWS account
