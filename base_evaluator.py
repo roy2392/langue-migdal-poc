@@ -217,7 +217,7 @@ class ToolEvaluator(ABC):
                 self._handle_error(trace, Exception("Failed to get or process agent response"), "Agent Processing")
                 return None
             
-            print(processed_response['agent_answer'])
+            # print(processed_response['agent_answer'])
 
             trace.update(
                 metadata={
@@ -258,9 +258,10 @@ class ToolEvaluator(ABC):
                     agents_used = self._add_agent_collaborators(agents_used, orc_trace_full)
 
                 
+
                 # Chain of thought processes whole agent trace + agent info
                 cot_eval_results, cot_system_prompt = cot_helper.evaluate_cot(trace_steps, processed_response['agent_answer'],self.agent_info, self.clients['bedrock_runtime'], self.config['MODEL_ID_EVAL_COT'])
-                
+       
                           
                 # Create an evaluation generation
                 agent_generation = trace.generation(
@@ -305,12 +306,12 @@ class ToolEvaluator(ABC):
                     # Create trace step spans
                     subtrace_span = cot_generation.span(
                         name="Agent Trace Step {}".format(index+1),
-                        input = step['modelInvocationInput'],
+                        input = step.get('modelInvocationInput'),
                         output={'Model Raw Response': step.get('modelInvocationOutput', {}).get('rawResponse'), 
                                 "Model Rationale": step.get('rationale')},
                         metadata = {"Model Output metadata": step.get('modelInvocationOutput', {}).get('metadata'),
                                     "Observation": step.get('observation')}
-                    )              
+                    )           
 
                     subtrace_span.end()
 
@@ -330,7 +331,6 @@ class ToolEvaluator(ABC):
                 #CHAIN OF THOUGHT EVALUATION END
                 
                 
-
                 #AGENT EVALAUATION RESULTS START
 
                 # Prepare metadata and evaluate
@@ -342,9 +342,10 @@ class ToolEvaluator(ABC):
                     **self.config
                 }
 
+                
+
                 # print("Evaluation metadata: {}".format(evaluation_metadata))
                 evaluation_results = self.evaluate_response(evaluation_metadata)
-                # print("Evalation_results: {}".format(evaluation_results))
                 
                 # TRACE SCORE UPDATE
 
@@ -377,5 +378,3 @@ class ToolEvaluator(ABC):
         except KeyboardInterrupt as e:
             self._handle_error(trace,e, "Manually Stopped Evaluation Job")
             raise KeyboardInterrupt
-        
-    
