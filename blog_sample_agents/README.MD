@@ -2,13 +2,16 @@
 
 You can choose one or both RAG and Text2SQL sample agent to try out evaluations
 
-## Pre-req
+## Pre-requisites
 
+1. Make your you hvae installed the required dependencies for the framework from the requirements.txt in the root of the repository
+2. Set up a Langfuse project using either the cloud version (Link to langfuse) or AWS self-hosted option (Link to repo for aws self-hosting)
+3. Run through the 0-Notebook-environment/setup-environment.ipynb to setup your AWS environment
 
 ## RAG / Text2SQL Agent setup
 
 1. Run through the RAG/Text2SQL notebook to create the agents in your AWS account
-2. For each agent type, either use the provided evaluation dataset or run the data generator to create a set of sample datafiles for other questions (WARNING: DUE TO NATURE OF SQL QUERIES OPTIMIZED FOR DIFFERENT DATABASE ENGINES, SOME MORE COMPLEX TEXT2SQL SAMPLE QUESTIONS MAY EITHER NOT WORK OR HAVE A LOW EVALUATION SCORE)
+2. For each agent type, run the data generator to create a set of sample datafiles for other questions (WARNING: DUE TO NATURE OF SQL QUERIES OPTIMIZED FOR DIFFERENT DATABASE ENGINES, SOME MORE COMPLEX TEXT2SQL SAMPLE QUESTIONS MAY EITHER NOT WORK OR HAVE A LOW EVALUATION SCORE)
 3. Either deploy the langfuse on your AWS with the self-hosted option (Link to repo) or set up a project in the cloud langfuse
 4. Modify the configuration file with the appropriate information about your agent, and evaluation models, etc
 5. Run the evalution script
