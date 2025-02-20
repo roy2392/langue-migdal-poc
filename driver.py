@@ -32,7 +32,10 @@ from config import (
     #EVALUATION MODELS
     MODEL_ID_EVAL,
     EMBEDDING_MODEL_ID,
-    MODEL_ID_EVAL_COT
+    MODEL_ID_EVAL_COT,
+
+    #DATA
+    DATA_FILE_PATH
 )
 
 # def process_model_definitions(agent_model_id):
@@ -238,4 +241,4 @@ def run_evaluation(data_file: str) -> None:
 # Driver
 if __name__ == "__main__":
     #Name of the data file
-    run_evaluation('data_files/official_demo_data_file.json')
+    run_evaluation(DATA_FILE_PATH)

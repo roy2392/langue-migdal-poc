@@ -1,0 +1,54 @@
+{
+    "TEXT2SQL": [
+        {
+            "question_id": 0,
+            "question": "What is the highest eligible free rate for K-12 students in the schools in Alameda County?",
+            "ground_truth": {
+                "ground_truth_sql_query": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1",
+                "ground_truth_sql_context": "Eligible free rate for K-12 = `Free Meal Count (K-12)` / `Enrollment (K-12)`",
+                "ground_truth_query_result": "1.0",
+                "ground_truth_answer": "The query result shows that the highest eligible free rate for K-12 students in the schools in Alameda County is 100%"
+            }
+        }, 
+        {
+            "question_id": 1,
+            "question": "Please list the lowest three eligible free rates for students aged 5-17 in continuation schools.",
+            "ground_truth": {
+                "ground_truth_sql_query": "SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` IS NOT NULL ORDER BY `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` ASC LIMIT 3",
+                "ground_truth_sql_context": "Eligible free rate for K-12 = `Free Meal Count (K-12)` / `Enrollment (K-12)`",
+                "ground_truth_query_result": "0.043478260869565216, 0.07042253521126761, 0.11363636363636363",
+                "ground_truth_answer": "The query results show that the lowest three eligible free rates for students aged 5-17 in continuation schools are: 4.35%, 7.04%, 11.36%."
+            }
+        }, 
+        {
+            "question_id": 2,
+            "question": "Please list the zip code of all the charter schools in Fresno County Office of Education.",
+            "ground_truth": {
+                "ground_truth_sql_query": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`District Name` = 'Fresno County Office of Education' AND T1.`Charter School (Y/N)` = 1",
+                "ground_truth_sql_context": "Charter schools refers to `Charter School (Y/N)` = 1 in the table fprm",
+                "ground_truth_query_result": "93726-5208, 93726-5309, 93706-2819, 93628-9602, 93706-2611",
+                "ground_truth_answer": "The query results show that the zip codes of all charter schools in Fresno County Office of Education are 93726-5208, 93726-5309, 93706-2819, 93628-9602, 93706-2611."
+            }
+        },
+        {
+            "question_id": 3,
+            "question": "What is the unabbreviated mailing street address of the school with the highest FRPM count for K-12 students?",
+            "ground_truth": {
+                "ground_truth_sql_query": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1",
+                "ground_truth_sql_context": "",
+                "ground_truth_query_result": "14429 South Downey Avenue",
+                "ground_truth_answer": "The query results show that 14429 South Downey Avenue is the unabbreviated mailing street"
+            }   
+        },
+        {
+            "question_id": 5,
+            "question": "How many schools with an average score in Math greater than 400 in the SAT test are exclusively virtual?",
+            "ground_truth": {
+                "ground_truth_sql_query": "SELECT COUNT(DISTINCT T2.School) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' AND T1.AvgScrMath > 400",
+                "ground_truth_sql_context": "Exclusively virtual refers to Virtual = 'F'",
+                "ground_truth_query_result": "4",
+                "ground_truth_answer": "The query results show that 4 schools with an average score in Math greater than 400 in the SAT test are exclusively virtual."
+            }
+        }      
+    ]
+}
