@@ -6,6 +6,7 @@ from ragas.metrics import LLMSQLEquivalence
 from ragas.dataset_schema import SingleTurnSample
 from ragas.metrics._factual_correctness import FactualCorrectness
 import asyncio
+import json
 import time
 from base_evaluator import ToolEvaluator
 
@@ -27,41 +28,109 @@ class Text2SQLEvaluator(ToolEvaluator):
         self.evaluator_llm = LangchainLLMWrapper(self.bedrock_model)
 
     def evaluate_response(self, metadata: Dict[str, Any]) -> Dict[str, Any]:
-        """Evaluate both SQL query and answer accuracy"""
+        """Evaluate Text2SQL response using LLM as judge with three key metrics"""
         try:
-            # Create samples for evaluation
-            sql_sample = SingleTurnSample(
-                #actual SQL generated
-                response=metadata['evaluation_metadata']['agent_query'],
-                #Ground truth sql query
-                reference=metadata['ground_truth']['ground_truth_sql_query'],
-                reference_contexts=[metadata['ground_truth']['ground_truth_sql_context']]
+
+            evaluation_prompt = f"""You are an expert evaluator for Text2SQL systems. Evaluate the following response based on three key metrics.
+
+    Question: {metadata['question']}
+    Database Schema: {metadata['ground_truth']['ground_truth_sql_context']}
+
+    Ground Truth SQL: {metadata['ground_truth']['ground_truth_sql_query']}
+    Generated SQL: {metadata['evaluation_metadata']['agent_query']}
+
+    Ground Truth Answer: {metadata['ground_truth']['ground_truth_answer']}
+    Generated Answer: {metadata['agent_response']}
+
+    Query Result: {metadata['ground_truth']['ground_truth_query_result']}
+
+    Evaluate and provide scores (0-1) and explanations for these metrics:
+
+    1. SQL Correctness: Evaluate if the generated SQL would produce the same results as the ground truth SQL.
+    2. Answer Accuracy: Check if the generated answer correctly represents the query results and matches ground truth.
+    3. Question Understanding: Assess if both the SQL and answer properly address the original question.
+
+    Provide your evaluation in this exact JSON format:
+    {{
+        "metrics_scores": {{
+            "sql_correctness": {{
+                "score": numeric_value,
+                "explanation": "Brief explanation of why this score was given"
+            }},
+            "answer_accuracy": {{
+                "score": numeric_value,
+                "explanation": "Brief explanation of why this score was given"
+            }},
+            "question_understanding": {{
+                "score": numeric_value,
+                "explanation": "Brief explanation of why this score was given"
+            }}
+        }}
+    }}
+    """
+
+            # Call LLM for evaluation
+            response = self.bedrock_client.invoke_model(
+                modelId='anthropic.claude-3-sonnet-20240229-v1:0',
+                body=json.dumps({
+                    "anthropic_version": "bedrock-2023-05-31",
+                    "max_tokens": 1024,
+                    "temperature": 0,
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": [{"type": "text", "text": evaluation_prompt}],
+                        }
+                    ],
+                })
             )
-
-            answer_sample = SingleTurnSample(
-                response=metadata['agent_response'],
-                reference=metadata['ground_truth']['ground_truth_answer']
-            )
-
-            # Score SQL query
-            sql_scorer = LLMSQLEquivalence()
-            sql_scorer.llm = self.evaluator_llm
-            sql_score = asyncio.run(sql_scorer.single_turn_ascore(sql_sample))
-
-            # Score answer
-            answer_scorer = FactualCorrectness()
-            answer_scorer.llm = self.evaluator_llm
-            answer_score = asyncio.run(answer_scorer.single_turn_ascore(answer_sample))
-
-            return {
-                'metrics_scores': {
-                    'sql_equivalence': sql_score,
-                    'factual_correctness': answer_score
-                }
-            }
+            
+            # Parse and return the evaluation
+            evaluation = json.loads(json.loads(response['body'].read())['content'][0]['text'])
+            return evaluation
 
         except Exception as e:
             raise Exception(f"error: {str(e)}")
+
+
+
+
+    # def evaluate_response(self, metadata: Dict[str, Any]) -> Dict[str, Any]:
+    #     """Evaluate both SQL query and answer accuracy"""
+    #     try:
+    #         # Create samples for evaluation
+    #         sql_sample = SingleTurnSample(
+    #             #actual SQL generated
+    #             response=metadata['evaluation_metadata']['agent_query'],
+    #             #Ground truth sql query
+    #             reference=metadata['ground_truth']['ground_truth_sql_query'],
+    #             reference_contexts=[metadata['ground_truth']['ground_truth_sql_context']]
+    #         )
+
+    #         answer_sample = SingleTurnSample(
+    #             response=metadata['agent_response'],
+    #             reference=metadata['ground_truth']['ground_truth_answer']
+    #         )
+
+    #         # Score SQL query
+    #         sql_scorer = LLMSQLEquivalence()
+    #         sql_scorer.llm = self.evaluator_llm
+    #         sql_score = asyncio.run(sql_scorer.single_turn_ascore(sql_sample))
+
+    #         # Score answer
+    #         answer_scorer = FactualCorrectness(atomicity="low", coverage="low")
+    #         answer_scorer.llm = self.evaluator_llm
+    #         answer_score = asyncio.run(answer_scorer.single_turn_ascore(answer_sample))
+
+    #         return {
+    #             'metrics_scores': {
+    #                 'sql_equivalence': sql_score,
+    #                 'factual_correctness': answer_score
+    #             }
+    #         }
+
+    #     except Exception as e:
+    #         raise Exception(f"error: {str(e)}")
        
             
     def invoke_agent(self, tries: int = 1) -> Tuple[Dict[str, Any], datetime]:

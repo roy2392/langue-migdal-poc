@@ -208,7 +208,6 @@ def run_evaluation(data_file: str) -> None:
             
             #go through each question in each trajectory
             for question in questions:
-                print(question)
                 #get the evaluation type for the question
                 eval_type = question.get('question_type')
                 question_id = question['question_id']
@@ -230,8 +229,8 @@ def run_evaluation(data_file: str) -> None:
                         session_id=session_id,
                         trajectory_id= trajectoryID
                     )
-                    
-                    #TODO: update the trace name to include the trajectory and question type(?) and id
+
+
                     results = evaluator.run_evaluation()
                     if results is None:
                         print(f"Skipping {trajectoryID} question {question_id} due to evaluation failure")

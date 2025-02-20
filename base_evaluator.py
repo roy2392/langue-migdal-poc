@@ -353,8 +353,8 @@ class ToolEvaluator(ABC):
 
                 # TODO: Make the logic better, stopgap solution
                 if self.eval_type != "COT":
-                    for metric_name, score in evaluation_results['metrics_scores'].items():
-                        trace.score(name=str(self.eval_type + "_" + metric_name), value=score)
+                    for metric_name, metric_info in evaluation_results['metrics_scores'].items():
+                        trace.score(name=str(self.eval_type + "_" + metric_name), value=metric_info.get('score'), comment=metric_info.get('explanation'))
                 
                 print("Agent Answer: {}".format(processed_response['agent_answer']))
 
