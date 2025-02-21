@@ -25,21 +25,19 @@ Screenshots / Code block to include:
 1. Clone this repo in a SageMaker notebook (Link to how to do it)
 2. Clone this repo locally and set up AWS CLI credentials to your AWS account (Link to how to do it)
 
-### Pre-req
+### Pre-Requisites for Running
+1. Install required dependency for the framework from requirements.txt 
+2. Setup LangFuse account and create a project using the cloud (Link to langfuse) or self-host option for AWS (Link to aws self hosted langfuse repo)
 
 ### Option 1: Bring your own agent to evaluate
-1. Bring your existing agent (Currently RAG and Text2SQL evaluations built-in)
-2. Use the provided dataset or create a dataset file for evaluations (Manually or using the generator)
-3. Deploy the langfuse on AWS for self-hosted option (Follow this repo: Link to repo) or use the cloud version of langfuse (Link to langfuse)
-3. Fill out the configuration file
-4. Run the evaluation job
+1. Bring your existing agent you want to evaluate(Currently RAG and Text2SQL evaluations built-in)
+2. Create a dataset file for evaluations, manually or using the generator (Refer to the sample_data_file.json for the necessary format)
+3. Copy the config_tpl.py into a 'config.py' configuration file
+4. Run driver.py to run the evaluation job
+5. Check the LangFuse console to see the traces
 
 ### Option 2: Create Sample Agents to run Evaluations
-1. Deploy the sample agents for RAG and Text2SQL use cases in the sample_agents folder
-2. Use the provided dataset or create the dataset file for evaluation using the data generator script
-3. Deploy the langfuse on AWS for self-hosted option (Follow this repo: Link to repo) or use the cloud version of langfuse (Link to langfuse)
-3. Fill out the configuration file
-4. Run the evaluation job
+Follow the instructions in README.md in the blog_sample_agents folder
 
 
 ## Navigating the Langfuse Traces and Dashboard
