@@ -215,10 +215,7 @@ def run_evaluation(data_file: str) -> None:
                 print(f"Running {trajectoryID} - {eval_type} - {question_id} evaluation")
 
                 trace_id = str(uuid.uuid1())
-          
-        
-                print(f"Trajectory: {trajectoryID} Question: {question_id}")
-                    
+                              
                 try:
                     evaluator = create_evaluator(
                         eval_type=eval_type,

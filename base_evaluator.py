@@ -102,7 +102,7 @@ class ToolEvaluator(ABC):
             id=self.trace_id,
             session_id=self.session_id,
             input=self.question,
-            name=f"{self.trajectory_id}: {self.eval_type} - Question {self.question_id}",
+            name=f"{self.eval_type} - Question {self.question_id}",
             user_id=self.config['AGENT_ID'],
             tags=[self.eval_type, self.agent_info['agentModel'], self.agent_info['agentType']]
         )
@@ -356,7 +356,7 @@ class ToolEvaluator(ABC):
                     for metric_name, metric_info in evaluation_results['metrics_scores'].items():
                         trace.score(name=str(self.eval_type + "_" + metric_name), value=metric_info.get('score'), comment=metric_info.get('explanation'))
                 
-                print("Agent Answer: {}".format(processed_response['agent_answer']))
+                # print("Agent Answer: {}".format(processed_response['agent_answer']))
 
                 # Update trace with final results
 
