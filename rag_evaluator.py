@@ -87,7 +87,9 @@ class RAGEvaluator(ToolEvaluator):
             )
             
             return {
-                'metrics_scores': evaluation_results.scores[0]
+                'metrics_scores': {
+                    metric: {'score': score} for metric, score in evaluation_results.scores[0].items()
+                }
             }
             
         except Exception as e:
