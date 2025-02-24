@@ -1,7 +1,7 @@
 # Bedrock Models for Evaluation
-MODEL_ID_EVAL=""
-EMBEDDING_MODEL_ID=""
-EMBEDDING_MODEL_ID=""
+MODEL_ID_EVAL="anthropic.claude-3-5-haiku-20241022-v1:0"
+MODEL_ID_EVAL_COT="anthropic.claude-3-5-sonnet-20241022-v2:0"
+EMBEDDING_MODEL_ID="amazon.titan-embed-text-v2:0"
 
 # Model parameters
 MAX_TOKENS = 2048
