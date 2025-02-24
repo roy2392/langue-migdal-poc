@@ -1,6 +1,6 @@
 # Amazon Bedrock Agent Evaluation
 
-Bedrock Agent Evaluation is an evlauation framework for Amazon Bedrock agent tool-use and chain-of-thought reasoning.
+Bedrock Agent Evaluation is an evalauation framework for Amazon Bedrock agent tool-use and chain-of-thought reasoning.
 
 ## Features
 
@@ -24,6 +24,14 @@ Screenshots / Code block to include:
 ### Deployment environment options
 1. Clone this repo in a SageMaker notebook (Link to how to do it)
 2. Clone this repo locally and set up AWS CLI credentials to your AWS account (Link to how to do it)
+
+### SageMaker Notebook Deployment
+
+Go to a SageMaker Notebook instance in your AWS account and clone this repository in a terminal
+
+```bash
+git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framework.git
+```
 
 ### Pre-Requisites for Running
 1. Install required dependency for the framework from requirements.txt 
