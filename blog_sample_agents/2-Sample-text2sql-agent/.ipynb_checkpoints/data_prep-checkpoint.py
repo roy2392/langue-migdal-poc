@@ -27,11 +27,17 @@ def create_s3_bucket_with_permissions(base_bucket_name, region='us-west-2'):
     s3 = boto3.resource('s3')
     
     try:
-        s3_client.create_bucket(
-            Bucket=bucket_name,
-            CreateBucketConfiguration={'LocationConstraint': region}
-        )
-        print(f"Created bucket: {bucket_name}")
+
+        if region == 'us-east-1':
+            # For us-east-1, don't specify LocationConstraint
+            s3_client.create_bucket(Bucket=bucket_name)
+            print(f"Created bucket: {bucket_name}")
+        else:
+            s3_client.create_bucket(
+                Bucket=bucket_name,
+                CreateBucketConfiguration={'LocationConstraint': region}
+            )
+            print(f"Created bucket: {bucket_name}")
 
         bucket_policy = {
             "Version": "2012-10-17",
