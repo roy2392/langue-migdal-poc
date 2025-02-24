@@ -540,37 +540,39 @@ def main():
 
 
     # Step 1: Unzip files
-    # create_and_unzip(
-    #     first_zip='dev.zip',
-    #     new_directory='unzipped_dev',
-    #     second_zip='dev_databases.zip'
-    # )
+    create_and_unzip(
+        first_zip='dev.zip',
+        new_directory='unzipped_dev',
+        second_zip='dev_databases.zip'
+    )
 
-    # # Step 2: Create buckets
-    # main_bucket = create_s3_bucket_with_permissions(BASE_BUCKET_NAME, REGION)
-    # athena_results_bucket = create_s3_bucket_with_permissions(ATHENA_RESULTS_BUCKET_NAME, REGION)
+    # Step 2: Create buckets
+    main_bucket = create_s3_bucket_with_permissions(BASE_BUCKET_NAME, REGION)
+    athena_results_bucket = create_s3_bucket_with_permissions(ATHENA_RESULTS_BUCKET_NAME, REGION)
 
-    # if not all([main_bucket, athena_results_bucket]):
-    #     print("Failed to create required buckets")
-    #     return
+    if not all([main_bucket, athena_results_bucket]):
+        print("Failed to create required buckets")
+        return
 
-    # # Step 3: Process and upload database
-    # base_path = Path(BASE_DIR)
-    # target_folder = base_path/DATABASE_NAME  # Create path to specific database folder
+    # Step 3: Process and upload database
+    base_path = Path(BASE_DIR)
+    target_folder = base_path/DATABASE_NAME  # Create path to specific database folder
 
-    # if target_folder.exists() and target_folder.is_dir():
-    #     process_database_and_upload(target_folder, main_bucket)
-    # else:
-    #     print(f"Database folder '{DATABASE_NAME}' not found in {BASE_DIR}")
+    if target_folder.exists() and target_folder.is_dir():
+        process_database_and_upload(target_folder, main_bucket)
+    else:
+        print(f"Database folder '{DATABASE_NAME}' not found in {BASE_DIR}")
 
     # # Step 4: Setup Athena permissions and configuration
-    # add_athena_permissions(main_bucket, athena_results_bucket)
-    # set_athena_result_location(athena_results_bucket)
+    add_athena_permissions(main_bucket, athena_results_bucket)
+    print("Added time to allow permissions for to propagate so result location can be properly set")
+    time.sleep(30)
+    set_athena_result_location(athena_results_bucket)
 
-    # # Step 5: Create Athena databases and tables
-    # success = create_all_databases_and_tables(athena_results_bucket, main_bucket)
-    # if success:
-    #     print("\nCompleted creating all databases and tables in Athena!")
+    # Step 5: Create Athena databases and tables
+    success = create_all_databases_and_tables(athena_results_bucket, main_bucket)
+    if success:
+        print("\nCompleted creating all databases and tables in Athena!")
 
     # Step 6: Generate input.json
     filter_on_db('unzipped_dev/dev_20240627/dev.json','input.json',DATABASE_NAME)
