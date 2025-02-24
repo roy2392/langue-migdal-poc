@@ -7,6 +7,7 @@ You can choose one or both RAG and Text2SQL sample agent to try out evaluations
 1. Make your you hvae installed the required dependencies for the framework from the requirements.txt in the root of the repository
 2. Set up a Langfuse project using either the cloud version (Link to langfuse) or AWS self-hosted option (Link to repo for aws self-hosting), and get the required security tokens to connect to the framework
 3. Run through the 0-Notebook-environment/setup-environment.ipynb to setup your AWS environment
+4. Choose the conda_python3 kernel for the SageMaker notebook
 
 ## RAG / Text2SQL Agent setup
 
