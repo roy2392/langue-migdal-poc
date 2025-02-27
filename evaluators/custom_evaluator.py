@@ -2,7 +2,7 @@ from typing import Dict, Any, List, Tuple
 import time
 from datetime import datetime
 from ragas import evaluate
-from base_evaluator import ToolEvaluator
+from evaluators.base_evaluator import ToolEvaluator
 
 class CustomEvaluator(ToolEvaluator):
     def __init__(self, **kwargs):
@@ -54,7 +54,8 @@ class CustomEvaluator(ToolEvaluator):
                 inputText=self.question,
                 agentId=self.config['AGENT_ID'],
                 agentAliasId=self.config['AGENT_ALIAS_ID'],
-                sessionId=self.trace_id,
+                # Confirm that this works
+                sessionId=self.session_id,
                 enableTrace=self.config['ENABLE_TRACE']
             )
 

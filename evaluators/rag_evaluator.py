@@ -7,7 +7,7 @@ from langchain_aws.chat_models.bedrock import ChatBedrock
 from langchain_aws.embeddings.bedrock import BedrockEmbeddings
 from datasets import Dataset
 from ragas import evaluate
-from base_evaluator import ToolEvaluator
+from evaluators.base_evaluator import ToolEvaluator
 from ragas.metrics import (
     faithfulness,
     answer_relevancy,
@@ -101,8 +101,6 @@ class RAGEvaluator(ToolEvaluator):
         Invoke the RAG tool and process its response with retry logic
         
         Args:
-            question (str): Question to process
-            trace_id (str): Unique identifier for the trace
             tries (int): Number of retry attempts
             
         Returns:
@@ -117,7 +115,8 @@ class RAGEvaluator(ToolEvaluator):
                 inputText=self.question,
                 agentId=self.config['AGENT_ID'],
                 agentAliasId=self.config['AGENT_ALIAS_ID'],
-                sessionId=self.trace_id,
+                # Test that this works
+                sessionId=self.session_id,
                 enableTrace=self.config['ENABLE_TRACE']
             )
 

@@ -8,7 +8,7 @@ from ragas.metrics._factual_correctness import FactualCorrectness
 import asyncio
 import json
 import time
-from base_evaluator import ToolEvaluator
+from evaluators.base_evaluator import ToolEvaluator
 
 class Text2SQLEvaluator(ToolEvaluator):
     def __init__(self, **kwargs):
@@ -154,7 +154,8 @@ class Text2SQLEvaluator(ToolEvaluator):
                 inputText=self.question,
                 agentId=self.config['AGENT_ID'],
                 agentAliasId=self.config['AGENT_ALIAS_ID'],
-                sessionId=self.trace_id,
+                # Confirm that this works
+                sessionId=self.session_id,
                 enableTrace=self.config['ENABLE_TRACE']
             )
 

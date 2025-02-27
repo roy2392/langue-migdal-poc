@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime
 from langfuse import Langfuse
-import cot_helper
+import helpers.cot_helper as cot_helper
 import time
 import json
 
@@ -50,13 +50,11 @@ class ToolEvaluator(ABC):
         pass
 
     @abstractmethod
-    def invoke_agent(self, question: str, trace_id: str, tries: int = 1) -> Tuple[Dict[str, Any], datetime]:
+    def invoke_agent(self, tries: int = 1) -> Tuple[Dict[str, Any], datetime]:
         """
         Invoke the specific tool and process its response
         
         Args:
-            question (str): Question to process
-            trace_id (str): Unique identifier for the trace
             tries (int): Number of retry attempts
             
         Returns:

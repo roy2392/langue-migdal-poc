@@ -4,11 +4,11 @@ import boto3
 import sys
 import json
 from typing import Dict, Any, List
-from rag_evaluator import RAGEvaluator
-from text2sql_evaluator import Text2SQLEvaluator
-from custom_evaluator import CustomEvaluator
+from evaluators.rag_evaluator import RAGEvaluator
+from evaluators.text2sql_evaluator import Text2SQLEvaluator
+from evaluators.custom_evaluator import CustomEvaluator
 from botocore.client import Config
-from agent_info_extractor import AgentInfoExtractor
+from helpers.agent_info_extractor import AgentInfoExtractor
 import time
 import requests
 import base64
@@ -191,11 +191,6 @@ def run_evaluation(data_file: str) -> None:
     #TODO: Ask Hasan if this is necessary
     # process_model_definitions(agent_model)
     
-    # Create session ID
-    session_id = str(uuid.uuid4())
-    os.environ["SESSION_ID"] = session_id
-    print(f"Run ID for evaluation run: {session_id}")
-
     # Load and process data
     with open(data_file, 'r') as f:
         data_dict = json.load(f)
@@ -206,6 +201,11 @@ def run_evaluation(data_file: str) -> None:
 
             #TODO: set a sessionID that will be shared across all questions in a singe trajectoryID
             
+            # Create session ID
+            session_id = str(uuid.uuid4())
+            # os.environ["SESSION_ID"] = session_id
+            print(f"Session ID for trajectory run: {session_id}")
+
             #go through each question in each trajectory
             for question in questions:
                 #get the evaluation type for the question
