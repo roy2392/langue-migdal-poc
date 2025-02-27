@@ -31,7 +31,7 @@ class Text2SQLEvaluator(ToolEvaluator):
         """Evaluate Text2SQL response using LLM as judge with three key metrics"""
         try:
 
-            evaluation_prompt = f"""You are an expert evaluator for Text2SQL systems. Evaluate the following response based on three key metrics.
+            evaluation_prompt = f"""You are an expert evaluator for Text2SQL systems. Evaluate the following response based on two key metrics.
 
     Question: {metadata['question']}
     Database Schema: {metadata['ground_truth']['ground_truth_sql_context']}
@@ -46,22 +46,17 @@ class Text2SQLEvaluator(ToolEvaluator):
 
     Evaluate and provide scores (0-1) and explanations for these metrics:
 
-    1. SQL Correctness: Evaluate if the generated SQL would produce the same results as the ground truth SQL.
-    2. Answer Accuracy: Check if the generated answer correctly represents the query results and matches ground truth.
-    3. Question Understanding: Assess if both the SQL and answer properly address the original question.
-
+    SQL Semantic Equivalence: Evaluate if the generated SQL would produce the same results as the ground truth SQL.
+    Answer Correctness: Check if the generated answer correctly represents the query results and matches ground truth.
+    
     Provide your evaluation in this exact JSON format:
     {{
         "metrics_scores": {{
-            "sql_correctness": {{
+            "sql_semantic_equivalence": {{
                 "score": numeric_value,
                 "explanation": "Brief explanation of why this score was given"
             }},
-            "answer_accuracy": {{
-                "score": numeric_value,
-                "explanation": "Brief explanation of why this score was given"
-            }},
-            "question_understanding": {{
+            "answer_correctness": {{
                 "score": numeric_value,
                 "explanation": "Brief explanation of why this score was given"
             }}

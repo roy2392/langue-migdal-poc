@@ -158,12 +158,7 @@ def query_athena(query, database_name='california_schools'):
             
             print(processed_results)
             return processed_results
-            # return {
-            #     'QueryExecutionId': query_execution_id,
-            #     'ResultCount': len(processed_results),
-            #     'Headers': headers,
-            #     'Results': processed_results
-            # }
+
         else:
             raise Exception(f"Query failed with state: {state}")
         
@@ -198,22 +193,6 @@ def lambda_handler(event, context):
     except Exception as e:
         error_message = str(e)
         print(f"Error occurred: {error_message}")
-
-    # TODO: Check if this is needed during testing
-    # BUCKET_NAME = os.environ['BUCKET_NAME']
-    # KEY = str(uuid.uuid4()) + '.json'
-    # size = sys.getsizeof(str(result)) if result else 0
-    # print(f"Response size: {size} bytes")
-    
-    # if size > 20000:
-    #     print('Size greater than 20KB, writing to a file in S3')
-    #     result = upload_result_s3(result, BUCKET_NAME, KEY)
-    #     response_body = {
-    #         'application/json': {
-    #             'body': f"Result uploaded to S3. Bucket: {BUCKET_NAME}, Key: {KEY}"
-    #         }
-    #     }
-    # else:
     
     response_body = {
         'application/json': {
@@ -228,15 +207,10 @@ def lambda_handler(event, context):
         'httpStatusCode': 200 if result else 500,
         'responseBody': response_body
     }
-
-    # session_attributes = event['sessionAttributes']
-    # prompt_session_attributes = event['promptSessionAttributes']
     
     api_response = {
         'messageVersion': '1.0', 
         'response': action_response,
-        # 'sessionAttributes': session_attributes,
-        # 'promptSessionAttributes': prompt_session_attributes
     }
         
     return api_response

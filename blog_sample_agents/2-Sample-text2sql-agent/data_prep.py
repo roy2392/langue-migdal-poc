@@ -10,19 +10,9 @@ from pathlib import Path
 import time
 import joblib
 
-# AWS Helper Functions
-def get_account_id():
-    sts_client = boto3.client('sts')
-    return sts_client.get_caller_identity()['Account']
-
-def create_unique_bucket_name(base_name):
-    account_id = get_account_id()
-    random_suffix = uuid.uuid4().hex[:6]
-    return f"{base_name}-{account_id}-{random_suffix}"
 
 # S3 Bucket Creation and Setup
-def create_s3_bucket(base_bucket_name, region='us-west-2'):
-    bucket_name = create_unique_bucket_name(base_bucket_name)
+def create_s3_bucket(bucket_name, region):
     s3_client = boto3.client('s3')
     s3 = boto3.resource('s3')
     
@@ -39,52 +29,6 @@ def create_s3_bucket(base_bucket_name, region='us-west-2'):
             )
             print(f"Created bucket: {bucket_name}")
 
-        # bucket_policy = {
-        #     "Version": "2012-10-17",
-        #     "Statement": [
-        #         {
-        #             "Sid": "AllowAthenaAccess",
-        #             "Effect": "Allow",
-        #             "Principal": {
-        #                 "Service": "athena.amazonaws.com"
-        #             },
-        #             "Action": [
-        #                 "s3:GetBucketLocation",
-        #                 "s3:GetObject",
-        #                 "s3:ListBucket",
-        #                 "s3:PutObject"
-        #             ],
-        #             "Resource": [
-        #                 f"arn:aws:s3:::{bucket_name}",
-        #                 f"arn:aws:s3:::{bucket_name}/*"
-        #             ]
-        #         },
-        #         {
-        #             "Sid": "AllowCurrentUserReadWrite",
-        #             "Effect": "Allow",
-        #             "Principal": {
-        #                 "AWS": boto3.client('sts').get_caller_identity()['Arn']
-        #             },
-        #             "Action": [
-        #                 "s3:GetObject",
-        #                 "s3:PutObject",
-        #                 "s3:DeleteObject",
-        #                 "s3:ListBucket",
-        #                 "s3:GetBucketLocation"
-        #             ],
-        #             "Resource": [
-        #                 f"arn:aws:s3:::{bucket_name}",
-        #                 f"arn:aws:s3:::{bucket_name}/*"
-        #             ]
-        #         }
-        #     ]
-        # }
-
-        # s3_client.put_bucket_policy(
-        #     Bucket=bucket_name,
-        #     Policy=json.dumps(bucket_policy)
-        # )
-        # print("Applied bucket policy")
         return bucket_name
 
     except ClientError as e:
@@ -166,186 +110,6 @@ def process_database_and_upload(database_folder, bucket_name):
     except Exception as e:
         print(f"Error processing database {database_name}: {str(e)}")
         return
-
-# Athena Setup Functions
-# def add_athena_permissions(data_bucket, results_bucket):
-#     iam = boto3.client('iam')
-#     sts = boto3.client('sts')
-
-#     # Get current user/role info
-#     caller_identity = sts.get_caller_identity()
-#     current_user_arn = caller_identity['Arn']
-#     account_id = caller_identity['Account']
-#     region = boto3.session.Session().region_name
-
-#     # Define the policy
-#     athena_policy = {
-#         "Version": "2012-10-17",
-#         "Statement": [
-#             {
-#                 "Effect": "Allow",
-#                 "Action": [
-#                     "athena:*"
-#                 ],
-#                 "Resource": [
-#                     f"arn:aws:athena:*:{account_id}:capacity-reservation/*",
-#                     f"arn:aws:athena:*:{account_id}:workgroup/primary",
-#                     f"arn:aws:athena:*:{account_id}:datacatalog/*"
-#                 ]
-#             },
-
-#             {
-#                 # Data bucket permissions (read-only)
-#                 "Effect": "Allow",
-#                 "Action": [
-#                     "s3:GetBucketLocation",
-#                     "s3:GetObject",
-#                     "s3:ListBucket"
-#                 ],
-#                 "Resource": [
-#                     f"arn:aws:s3:::{data_bucket}",
-#                     f"arn:aws:s3:::{data_bucket}/*"
-#                 ]
-#             },
-#             {
-#                 # Results bucket permissions (read and write)
-#                 "Effect": "Allow",
-#                 "Action": [
-#                     "s3:GetBucketLocation",
-#                     "s3:GetObject",
-#                     "s3:ListBucket",
-#                     "s3:PutObject",
-#                     "s3:ListMultipartUploadParts",
-#                     "s3:AbortMultipartUpload"
-#                 ],
-#                 "Resource": [
-#                     f"arn:aws:s3:::{results_bucket}",
-#                     f"arn:aws:s3:::{results_bucket}/*"
-#                 ]
-#             },
-#             {
-#                 "Effect": "Allow",
-#                 "Action": [
-#                     "glue:CreateDatabase",
-#                     "glue:DeleteDatabase",
-#                     "glue:GetCatalog",
-#                     "glue:GetCatalogs",
-#                     "glue:GetDatabase",
-#                     "glue:GetDatabases",
-#                     "glue:UpdateDatabase",
-#                     "glue:CreateTable",
-#                     "glue:DeleteTable",
-#                     "glue:BatchDeleteTable",
-#                     "glue:UpdateTable",
-#                     "glue:GetTable",
-#                     "glue:GetTables",
-#                     "glue:BatchCreatePartition",
-#                     "glue:CreatePartition",
-#                     "glue:DeletePartition",
-#                     "glue:BatchDeletePartition",
-#                     "glue:UpdatePartition",
-#                     "glue:GetPartition",
-#                     "glue:GetPartitions",
-#                     "glue:BatchGetPartition",
-#                     "glue:StartColumnStatisticsTaskRun",
-#                     "glue:GetColumnStatisticsTaskRun",
-#                     "glue:GetColumnStatisticsTaskRuns",
-#                     "glue:GetCatalogImportStatus"
-#                 ],
-#                 "Resource": [
-#                     f"arn:aws:glue:*:{account_id}:catalog",
-#                     f"arn:aws:glue:*:{account_id}:database/*",
-#                     f"arn:aws:glue:*:{account_id}:table/*"
-#                 ]
-#             }
-#         ]
-#     }
-
-#     try:
-#         # Delete existing policy if it exists
-#         try:
-#             existing_policies = iam.list_policies(Scope='Local')['Policies']
-#             for policy in existing_policies:
-#                 if policy['PolicyName'] == 'AthenaQueryPermissions':
-#                     policy_arn= policy['Arn']
-#                     # First detach from user if it exists
-#                     if ':user/' in current_user_arn:
-#                         username = current_user_arn.split('/')[-1]
-#                         try:
-#                             iam.detach_user_policy(
-#                                 UserName=username,
-#                                 PolicyArn=policy_arn
-#                             )
-#                             print(f"Detached existing policy from user: {username}")
-#                         except Exception as e:
-#                             print(f"Note when detaching from user: {e}")
-                    
-#                     # Then detach from role if it exists
-#                     elif ':assumed-role/' in current_user_arn:
-#                         role_name = current_user_arn.split('/')[-2]
-#                         try:
-#                             iam.detach_role_policy(
-#                                 RoleName=role_name,
-#                                 PolicyArn=policy_arn
-#                             )
-#                             print(f"Detached existing policy from role: {role_name}")
-#                         except Exception as e:
-#                             print(f"Note when detaching from role: {e}")
-                    
-#                     # Finally delete the policy
-#                     try:
-#                         iam.delete_policy(PolicyArn=policy_arn)
-#                         print("Deleted existing policy")
-#                     except Exception as e:
-#                         print(f"Note when deleting policy: {e}")
-#         except Exception as e:
-#             print(f"Note: {e}")
-
-#         # Create the policy
-#         response = iam.create_policy(
-#             PolicyName='AthenaQueryPermissions',
-#             PolicyDocument=json.dumps(athena_policy)
-#         )
-#         policy_arn = response['Policy']['Arn']
-#         print(f"Created policy: {policy_arn}")
-
-#         # Attach the policy to the current user/role
-#         if ':user/' in current_user_arn:
-#             username = current_user_arn.split('/')[-1]
-#             try:
-#                 iam.detach_user_policy(
-#                     UserName=username,
-#                     PolicyArn=policy_arn
-#                 )
-#             except:
-#                 pass
-#             iam.attach_user_policy(
-#                 UserName=username,
-#                 PolicyArn=policy_arn
-#             )
-#             print(f"Attached policy to user: {username}")
-#         elif ':assumed-role/' in current_user_arn:
-#             role_name = current_user_arn.split('/')[-2]
-#             try:
-#                 iam.detach_role_policy(
-#                     RoleName=role_name,
-#                     PolicyArn=policy_arn
-#                 )
-#             except:
-#                 pass
-#             iam.attach_role_policy(
-#                 RoleName=role_name,
-#                 PolicyArn=policy_arn
-#             )
-#             print(f"Attached policy to role: {role_name}")
-
-#         print("Successfully added Athena permissions with specific bucket access")
-#         return True
-
-#     except Exception as e:
-#         print(f"Error adding permissions: {e}")
-#         return False
-
 
 def set_athena_result_location(result_bucket):
     try:
@@ -569,10 +333,7 @@ def main():
     else:
         print(f"Database folder '{DATABASE_NAME}' not found in {BASE_DIR}")
 
-    # # Step 4: Setup Athena configurations
-    # add_athena_permissions(main_bucket, athena_results_bucket)
-    # print("Added time to allow permissions for to propagate so result location can be properly set")
-    # time.sleep(30)
+    # Step 4: Setup Athena configurations
     set_athena_result_location(athena_results_bucket)
 
     # Step 5: Create Athena databases and tables
@@ -580,9 +341,9 @@ def main():
     if success:
         print("\nCompleted creating all databases and tables in Athena!")
 
-    # Step 6: Generate input.json
-    filter_on_db('unzipped_dev/dev_20240627/dev.json','input.json',DATABASE_NAME)
-    print("Created input.json for agent")
+    # Step 6: Generate birdsql.json
+    filter_on_db('unzipped_dev/dev_20240627/dev.json','birdsql_data.json',DATABASE_NAME)
+    print("Created birdsql_data.json for agent")
 
 
 if __name__ == "__main__":

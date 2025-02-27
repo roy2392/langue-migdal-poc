@@ -2,12 +2,34 @@
 
 You can choose one or both RAG and Text2SQL sample agent to try out evaluations
 
-## Pre-requisites
+## Deployment Steps
 
-1. Make your you hvae installed the required dependencies for the framework from the requirements.txt in the root of the repository
-2. Set up a Langfuse project using either the cloud version (Link to langfuse) or AWS self-hosted option (Link to repo for aws self-hosting), and get the required security tokens to connect to the framework
-3. Run through the 0-Notebook-environment/setup-environment.ipynb to setup your AWS environment
-4. Choose the conda_python3 kernel for the SageMaker notebook
+1. Set up a Langfuse project using either the cloud version www.langfuse.com or the AWS self-hosted option https://github.com/aws-samples/deploy-langfuse-on-ecs-with-fargate/tree/main/langfuse-v3
+
+2. Create a SageMaker notebook instance in your AWS account
+
+3. Open a terminal and navigate to the SageMaker/ folder within the instance
+```bash
+cd SageMaker/
+```
+
+4. Clone this repository
+```bash
+git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framework
+```
+
+5. Navigate to the repository and install the necessary requirements
+```bash
+cd amazon-bedrock-agent-evaluation-framework/
+pip3 install -r requirements.txt
+```
+
+6. Go to the blog_sample_agents/ folder and navigate to 0-Notebook-environment/setup-environment.ipynb to set up your Jupyter environment
+
+7. Choose the conda_python3 kernel for the SageMaker notebook
+
+8. Follow the respective agent notebooks to deploy each agent and evaluate it against a benchmark dataset!
+
 
 ## RAG / Text2SQL Agent setup
 

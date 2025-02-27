@@ -19,23 +19,32 @@ Screenshots / Code block to include:
 5. Screenshot of langfuse trace and evaluation metrics
 
 
-## How to use
+### Deployment Options
+1. Clone this repo to a SageMaker notebook instance
+2. Clone this repo locally and set up AWS CLI credentials to your AWS account
 
-### Deployment environment options
-1. Clone this repo in a SageMaker notebook (Link to how to do it)
-2. Clone this repo locally and set up AWS CLI credentials to your AWS account (Link to how to do it)
+### Pre-Requisites
+Set up a LangFuse account and create a project using the cloud www.langfuse.com or self-host option for AWS https://github.com/aws-samples/deploy-langfuse-on-ecs-with-fargate/tree/main/langfuse-v3
 
-### SageMaker Notebook Deployment
+### SageMaker Notebook Deployment Steps
 
-Go to a SageMaker Notebook instance in your AWS account and clone this repository in a terminal
+1. Create a SageMaker notebook instance in your AWS account
 
+2. Open a terminal and navigate to the SageMaker/ folder within the instance
 ```bash
-git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framework.git
+cd SageMaker/
 ```
 
-### Pre-Requisites for Running
-1. Install required dependency for the framework from requirements.txt 
-2. Setup LangFuse account and create a project using the cloud (Link to langfuse) or self-host option for AWS (Link to aws self hosted langfuse repo)
+3. Clone this repository
+```bash
+git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framework
+```
+
+4. Navigate to the repository and install the necessary requirements
+```bash
+cd amazon-bedrock-agent-evaluation-framework/
+pip3 install -r requirements.txt
+```
 
 ### Option 1: Bring your own agent to evaluate
 1. Bring your existing agent you want to evaluate(Currently RAG and Text2SQL evaluations built-in)
@@ -45,7 +54,8 @@ git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framewo
 5. Check the LangFuse console to see the traces
 
 ### Option 2: Create Sample Agents to run Evaluations
-Follow the instructions in README.md in the blog_sample_agents folder
+Follow the instructions in the blog_sample_agents/ README.md. This is a guided way 
+to run the evaluation framework on actual Bedrock Agents.
 
 
 ## Navigating the Langfuse Traces and Dashboard
