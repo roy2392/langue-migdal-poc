@@ -163,7 +163,8 @@ class Text2SQLEvaluator(ToolEvaluator):
             agent_query = ""
             agent_answer = None
             end_event_received = False
-            input_tokens = output_tokens = 0
+            input_tokens = 0
+            output_tokens = 0
             full_trace = []
             
 
@@ -191,8 +192,8 @@ class Text2SQLEvaluator(ToolEvaluator):
                         # Extract token usage if available
                         if 'modelInvocationOutput' in orc_trace:
                             usage = orc_trace['modelInvocationOutput']['metadata']['usage']
-                            input_tokens += usage['inputTokens']
-                            output_tokens += usage['outputTokens']
+                            input_tokens += usage.get('inputTokens',0)
+                            output_tokens += usage.get('outputTokens',0)
 
             if not end_event_received:
                 raise Exception("End event not received")

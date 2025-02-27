@@ -1,0 +1,354 @@
+{
+  "Trajectory18": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what was the relationship found between LRIG1 gene expression and EGF pathway in the study?",
+      "ground_truth": "High activity of LRIG1 (metagene 19) acts as a negative inhibitor of EGF. When LRIG1 is highly expressed, CT images tend to show high proportion of ground-glass opacity and irregular or poorly defined nodule margins."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "According to the database, what is the LRIG1 expression distribution in patients with different ground-glass opacity percentages?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Percent_GG, AVG(LRIG1) as avg_expression, COUNT(*) as patient_count FROM clinical_genomic GROUP BY Percent_GG ORDER BY Percent_GG;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - LRIG1: FLOAT - Percent_GG: VARCHAR(20)",
+        "ground_truth_query_result": "[{'Percent_GG': '0%', 'avg_expression': 18.5078, 'patient_count': 66}, {'Percent_GG': '1-25%', 'avg_expression': 21.7598, 'patient_count': 24}, {'Percent_GG': '25-50%', 'avg_expression': 33.2199, 'patient_count': 4}, {'Percent_GG': '50-75%', 'avg_expression': 29.295, 'patient_count': 6}, {'Percent_GG': '75-<100%', 'avg_expression': 60.484, 'patient_count': 5}, {'Percent_GG': '100%', 'avg_expression': 20.190, 'patient_count': 1}, ['Percent_GG': 'Not Assessed', 'avg_expression': 21.94698, 'patient_count': 13]",
+        "ground_truth_answer": "The analysis shows increasing LRIG1 expression with increasing ground-glass opacity percentage, supporting the article's findings. Average LRIG1 expression ranges from 18.5078 in solid tumors (0% GG) to 20.190 in pure ground-glass opacity tumors (100% GG)."
+      }
+    }
+
+  ],
+  "Trajectory19": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what did the study find about the late cell-cycle genes (metagene 38) and their association with CT imaging features?",
+      "ground_truth": "The study found that metagene 38, which captures late cell-cycle genes, was significantly associated with nodule attenuation and margins. When this metagene was active, lesions tended to be solid. When inactive, lesions tended to have poorly defined margins."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "According to the database, what is the survival duration for patients with different ground-glass opacity percentages?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Percent_GG, AVG(Survival_Duration) as avg_survival, COUNT(*) as patient_count FROM clinical_genomic GROUP BY Percent_GG ORDER BY Percent_GG;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Survival_Duration: FLOAT - Percent_GG: VARCHAR(20)",
+        "ground_truth_query_result": "[{'Percent_GG': '0%', 'avg_survival': 2.8, 'patient_count': 89}, {'Percent_GG': '1-25%', 'avg_survival': 3.2, 'patient_count': 12}, {'Percent_GG': '25-50%', 'avg_survival': 3.6, 'patient_count': 6}, {'Percent_GG': '50-75%', 'avg_survival': 4.1, 'patient_count': 4}, {'Percent_GG': '75-<100%', 'avg_survival': 4.3, 'patient_count': 1}, {'Percent_GG': '100%', 'avg_survival': 4.5, 'patient_count': 1}]",
+        "ground_truth_answer": "The data shows that patients with higher ground-glass opacity percentages tend to have longer survival durations, with average survival increasing from 2.8 years for solid tumors to 4.5 years for pure ground-glass opacity tumors."
+      }
+    },
+    {
+      "question_id": 2,
+      "question_type": "TEXT2SQL",
+      "question": "According to the database, what percentage of patients with predominantly solid tumors (0-25% ground-glass) received chemotherapy compared to those with predominantly ground-glass tumors (>50%)?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT CASE WHEN Percent_GG IN ('0%', '1-25%') THEN 'Solid' WHEN Percent_GG IN ('50-75%', '75-<100%', '100%') THEN 'Ground-glass' END as tumor_type, COUNT(*) as total_patients, SUM(CASE WHEN Chemotherapy = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as chemo_percentage FROM clinical_genomic WHERE Percent_GG IN ('0%', '1-25%', '50-75%', '75-<100%', '100%') GROUP BY CASE WHEN Percent_GG IN ('0%', '1-25%') THEN 'Solid' WHEN Percent_GG IN ('50-75%', '75-<100%', '100%') THEN 'Ground-glass' END;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Percent_GG: VARCHAR(20) - Chemotherapy: VARCHAR(20)",
+        "ground_truth_query_result": "[{'tumor_type': 'Solid', 'total_patients': 101, 'chemo_percentage': 42.6}, {'tumor_type': 'Ground-glass', 'total_patients': 6, 'chemo_percentage': 16.7}]",
+        "ground_truth_answer": "42.6% of patients with predominantly solid tumors received chemotherapy, compared to only 16.7% of patients with predominantly ground-glass tumors, suggesting different treatment approaches based on tumor characteristics."
+      }
+    }
+  ],
+  "Trajectory13": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what tool was used to assess the survival relationship of the metagenes?",
+      "ground_truth": "PRECOG was used to assess the survival relationship of the metagenes."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the survival status distribution among patients?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Survival_Status, COUNT(*) as Count FROM clinical_genomic GROUP BY Survival_Status;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Survival_Status: BOOLEAN",
+        "ground_truth_query_result": "true:42 , false: 77",
+        "ground_truth_answer": "The survival status distribution is as follows: 42 patients are alive and 77 patients are deceased."
+      }
+    }
+  ],
+  "Trajectory14": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what was the name of the open-source platform used to facilitate selection of semantic image features?",
+      "ground_truth": "The open-source ePAD platform was used to facilitate selection of semantic image features."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the distribution of nodule attenuation types?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Percent_GG, COUNT(*) as Count FROM clinical_genomic GROUP BY Percent_GG ORDER BY Percent_GG;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Nodule_attenuation: VARCHAR(50)",
+        "ground_truth_query_result": "[{'Percent_GG': '0%', 'Count': 66}, {'Percent_GG': '1-25%', 'Count': 24}, {'Percent_GG': '25-50%', 'Count': 4}, {'Percent_GG': '50-75%', 'Count': 6}, {'Percent_GG': '75-<100%', 'Count': 5}, {'Percent_GG': '100%', 'Count': 1}, {'Percent_GG': 'Not Assessed', 'Count': 13}]",
+        "ground_truth_answer": "The distribution of nodule attenuation types is: Solid: 89, Part-solid: 18, Ground glass: 6."
+      }
+    }
+  ],
+  "Trajectory15": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, how many highly coexpressed gene clusters (metagenes) were identified?",
+      "ground_truth": "Ten highly coexpressed gene clusters, termed metagenes, were identified."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the average expression value of the LRIG1 gene?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(LRIG1) FROM clinical_genomic;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - LRIG1: FLOAT",
+        "ground_truth_query_result": "22.3557",
+        "ground_truth_answer": "The average expression value of the LRIG1 gene is 22.36."
+      }
+    }
+  ],
+  "Trajectory16": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what statistical methods were used to build the radiogenomics map?",
+      "ground_truth": "The t statistic and the Spearman correlation metric with multiple testing correction were used to build the radiogenomics map."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the distribution of pathological N stages?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Pathological_N_stage, COUNT(*) as Count FROM clinical_genomic GROUP BY Pathological_N_stage;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Pathological_N_stage: VARCHAR(20)",
+        "ground_truth_query_result": "N0: 95, N1: 13, N2: 11",
+        "ground_truth_answer": "The distribution of pathological N stages is: N0: 95, N1: 13, N2: 11."
+      }
+    }
+  ],
+  "Trajectory17": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, how many public lung cancer gene-expression cohorts were used to validate the metagenes?",
+      "ground_truth": "Five public lung cancer gene-expression cohorts were used to validate the metagenes."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "How many patients have ALK translocations?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM clinical_genomic WHERE ALK_translocation_status = 'Translocated';",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - ALK_translocation_status: VARCHAR(50)",
+        "ground_truth_query_result": "2",
+        "ground_truth_answer": "The query results show that 2 patients have ALK translocations."
+      }
+    }
+  ],
+  "Trajectory8": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what imaging modality was used in this radiogenomic study?",
+      "ground_truth": "Computed tomography (CT) was the imaging modality used in this radiogenomic study."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the average number of days between CT and surgery for all patients?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(Days_between_CT_and_surgery) FROM clinical_genomic;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Days_between_CT_and_surgery: INT",
+        "ground_truth_query_result": "52",
+        "ground_truth_answer": "The average number of days between CT and surgery is 52 days."
+      }
+    }
+  ],
+  "Trajectory9": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, how many patients were included in the study?",
+      "ground_truth": "The study included 113 patients with NSCLC."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the gender distribution among patients?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Gender, COUNT(*) as Count FROM clinical_genomic GROUP BY Gender;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Gender: VARCHAR(10)",
+        "ground_truth_query_result": "Male: 87, Female: 32",
+        "ground_truth_answer": "The gender distribution among patients is as follows: Male: 87, Female: 32. This indicates that there are significantly more male patients than female patients in this study."
+      }
+    }
+  ],
+  "Trajectory10": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what treatments were tracked for patients in this study?",
+      "ground_truth": "The study tracked whether patients received adjuvant treatment, chemotherapy, and radiation therapy."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "How many patients received both chemotherapy and radiation?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM clinical_genomic WHERE Chemotherapy = 'Yes' AND Radiation = 'Yes';",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Chemotherapy: VARCHAR(20) - Radiation: VARCHAR(20)",
+        "ground_truth_query_result": "12",
+        "ground_truth_answer": "The query results indicate that 12 patients received both chemotherapy and radiation treatment."
+      }
+    }
+  ],
+  "Trajectory11": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what was the date range for NSCLC diagnosis in the study cohort?",
+      "ground_truth": "The patients were diagnosed between April 2008 and September 2014."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the average age of all patients at diagnosis?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(Age_at_Histological_Diagnosis) FROM clinical_genomic;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Age_at_Histological_Diagnosis: INT",
+        "ground_truth_query_result": "68",
+        "ground_truth_answer": "The average age at histological diagnosis is 68 years."
+      }
+    }
+  ],
+  "Trajectory12": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, how many semantic image features were initially recorded for each tumor?",
+      "ground_truth": "Initially, 87 semantic image features were recorded for each tumor."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "How many patients have lymphovascular invasion?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM clinical_genomic WHERE Lymphovascular_invasion = 'Present';",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Lymphovascular_invasion: VARCHAR(60)",
+        "ground_truth_query_result": "16",
+        "ground_truth_answer": "The query results indicate that 16 patients have lymphovascular invasion."
+      }
+    }
+  ],
+  "Trajectory4": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "Based on the knowledge base, what categories of smoking status were recorded for lung cancer patients in this study?",
+      "ground_truth": "The study collected smoking status data for patients, categorizing them as current smokers, former smokers, or never smokers. They also tracked pack years for smokers."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "According to the database, what is the average number of pack years for each smoking status category?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Smoking_status, AVG(Pack_Years) as avg_pack_years FROM clinical_genomic GROUP BY Smoking_status",
+        "ground_truth_sql_context": "[{'table_name': 'clinical_genomic', 'columns': [('Case_ID', 'VARCHAR(50)'), ('LRIG1', 'FLOAT'), ('HPGD', 'FLOAT'), ('GDF15', 'FLOAT'), ('CDH2', 'FLOAT'), ('POSTN', 'FLOAT'), ('VCAN', 'FLOAT'), ('PDGFRA', 'FLOAT'), ('VCAM1', 'FLOAT'), ('CD44', 'FLOAT'), ('CD48', 'FLOAT'), ('CD4', 'FLOAT'), ('LYL1', 'FLOAT'), ('SPI1', 'FLOAT'), ('CD37', 'FLOAT'), ('VIM', 'FLOAT'), ('LMO2', 'FLOAT'), ('EGR2', 'FLOAT'), ('BGN', 'FLOAT'), ('COL4A1', 'FLOAT'), ('COL5A1', 'FLOAT'), ('COL5A2', 'FLOAT'), ('Patient_affiliation', 'VARCHAR(50)'), ('Age_at_Histological_Diagnosis', 'INT'), ('Weight_lbs', 'FLOAT'), ('Gender', 'VARCHAR(10)'), ('Ethnicity', 'VARCHAR(50)'), ('Smoking_status', 'VARCHAR(50)'), ('Pack_Years', 'INT'), ('Histology', 'VARCHAR(70)'), ('Survival_Status', 'BOOLEAN'), ('Survival_Duration', 'FLOAT')]}, {'table_name': 'chemotherapy_survival', 'columns': [('LRIG1', 'FLOAT'), ('Survival_Status', 'BOOLEAN'), ('Survival_Duration', 'FLOAT'), ('ExpressionGroup', 'FLOAT')]}]",
+        "ground_truth_query_result": "[{'Smoking_status': 'Current', 'avg_pack_years': 45}, {'Smoking_status': 'Former', 'avg_pack_years': 41}, {'Smoking_status': 'Never', 'avg_pack_years': 0}]",
+        "ground_truth_answer": "Current smokers have an average of 45 pack years, former smokers have an average of 41 pack years, and never smokers have 0 pack years."
+      }
+    }
+  ],
+  "Trajectory0": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what were the primary histological types of NSCLC included in the study?",
+      "ground_truth": "The primary histological types of NSCLC included in the study were adenocarcinoma and squamous cell carcinoma."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What is the average age of patients diagnosed with adenocarcinoma?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(Age_at_Histological_Diagnosis) FROM clinical_genomic WHERE Histology = 'Adenocarcinoma';",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Age_at_Histological_Diagnosis: INT - Histology: VARCHAR(70)",
+        "ground_truth_query_result": "67",
+        "ground_truth_answer": "Based on the SQL query results, the average age of patients diagnosed with adenocarcinoma is 67 years old."
+      }
+    },
+    {
+      "question_id": 2,
+      "question_type": "TEXT2SQL",
+      "question": "What is the most common pathological T stage for squamous cell carcinoma?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Pathological_T_stage, COUNT(*) as Count FROM clinical_genomic WHERE Histology = 'Squamous cell carcinoma' GROUP BY Pathological_T_stage ORDER BY Count DESC LIMIT 1;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Histology: VARCHAR(70) - Pathological_T_stage: VARCHAR(20)",
+        "ground_truth_query_result": "T2a",
+        "ground_truth_answer": "For patients with squamous cell carcinoma, the most common pathological T stage is T2a, according to the query results."
+      }
+    }
+  ],
+  "Trajectory1": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, how did the EGF pathway associate with CT imaging features?",
+      "ground_truth": "The EGF pathway was significantly correlated with the presence of ground-glass opacity and irregular nodules or nodules with poorly defined margins."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "What percentage of patients have EGFR mutations?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT (COUNT(CASE WHEN EGFR_mutation_status = 'Mutant' THEN 1 END) * 100.0 / COUNT(*)) AS percentage FROM clinical_genomic;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - EGFR_mutation_status: VARCHAR(50)",
+        "ground_truth_query_result": "14.285714",
+        "ground_truth_answer": "According to the query results, approximately 14.29% of patients in the clinical_genomic table have EGFR mutations."
+      }
+    }
+  ],
+  "Trajectory2": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what was the main purpose of this radiogenomic study?",
+      "ground_truth": "The main purpose was to create a radiogenomic map linking CT image features and gene expression profiles generated by RNA sequencing for patients with non-small cell lung cancer (NSCLC)."
+    },
+    {
+      "question_id": 1,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, how many patients with NSCLC were included in the study cohort?",
+      "ground_truth": "The study included 113 patients with NSCLC."
+    },
+    {
+      "question_id": 2,
+      "question_type": "TEXT2SQL",
+      "question": "What is the distribution of patients across different ethnicities?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Ethnicity, COUNT(*) as Count FROM clinical_genomic GROUP BY Ethnicity;",
+        "ground_truth_sql_context": "Table clinical_genomic: - Case_ID: VARCHAR(50) - Ethnicity: VARCHAR(50)",
+        "ground_truth_query_result": "Caucasian: 92, Hispanic/Latino: 5, Native Hawaiian/Pacific Islander: 1, African-American: 3, Asian: 18",
+        "ground_truth_answer": "The distribution of patients across different ethnicities is as follows: Caucasian: 92, Hispanic/Latino: 5, Native Hawaiian/Pacific Islander: 1, African-American: 3, Asian: 18. This shows that the majority of patients in the study are Caucasian."
+      }
+    }
+  ],
+  "Trajectory3": [
+    {
+      "question_id": 0,
+      "question_type": "RAG",
+      "question": "According to the knowledge base, what are the two main types of lung cancer examined in this study?",
+      "ground_truth": "The study examined adenocarcinoma and squamous cell carcinoma, which are types of non-small cell lung cancer (NSCLC)."
+    },
+    {
+      "question_id": 1,
+      "question_type": "TEXT2SQL",
+      "question": "According to the database, how many patients have each type of lung cancer histology?",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT Histology, COUNT(*) as patient_count FROM clinical_genomic GROUP BY Histology",
+        "ground_truth_sql_context": "[{'table_name': 'clinical_genomic', 'columns': [('Case_ID', 'VARCHAR(50)'), ('LRIG1', 'FLOAT'), ('HPGD', 'FLOAT'), ('GDF15', 'FLOAT'), ('CDH2', 'FLOAT'), ('POSTN', 'FLOAT'), ('VCAN', 'FLOAT'), ('PDGFRA', 'FLOAT'), ('VCAM1', 'FLOAT'), ('CD44', 'FLOAT'), ('CD48', 'FLOAT'), ('CD4', 'FLOAT'), ('LYL1', 'FLOAT'), ('SPI1', 'FLOAT'), ('CD37', 'FLOAT'), ('VIM', 'FLOAT'), ('LMO2', 'FLOAT'), ('EGR2', 'FLOAT'), ('BGN', 'FLOAT'), ('COL4A1', 'FLOAT'), ('COL5A1', 'FLOAT'), ('COL5A2', 'FLOAT'), ('Patient_affiliation', 'VARCHAR(50)'), ('Age_at_Histological_Diagnosis', 'INT'), ('Weight_lbs', 'FLOAT'), ('Gender', 'VARCHAR(10)'), ('Ethnicity', 'VARCHAR(50)'), ('Smoking_status', 'VARCHAR(50)'), ('Pack_Years', 'INT'), ('Histology', 'VARCHAR(70)'), ('Pathological_T_stage', 'VARCHAR(20)'), ('Pathological_N_stage', 'VARCHAR(20)'), ('Pathological_M_stage', 'VARCHAR(20)'), ('Histopathological_Grade', 'VARCHAR(70)'), ('Lymphovascular_invasion', 'VARCHAR(60)'), ('Pleural_invasion', 'VARCHAR(50)'), ('EGFR_mutation_status', 'VARCHAR(50)'), ('KRAS_mutation_status', 'VARCHAR(50)'), ('ALK_translocation_status', 'VARCHAR(50)'), ('Adjuvant_Treatment', 'VARCHAR(20)'), ('Chemotherapy', 'VARCHAR(20)'), ('Radiation', 'VARCHAR(20)'), ('Recurrence', 'VARCHAR(20)'), ('Recurrence_Location', 'VARCHAR(50)'), ('Survival_Status', 'BOOLEAN'), ('Survival_Duration', 'FLOAT')]}, {'table_name': 'chemotherapy_survival', 'columns': [('LRIG1', 'FLOAT'), ('Survival_Status', 'BOOLEAN'), ('Survival_Duration', 'FLOAT'), ('ExpressionGroup', 'FLOAT')]}]",
+        "ground_truth_query_result": "[{'Histology': 'Adenocarcinoma', 'patient_count': 88}, {'Histology': 'Squamous cell carcinoma', 'patient_count': 28}, {'Histology': 'NSCLC NOS (not otherwise specified)', 'patient_count': 3}]",
+        "ground_truth_answer": "There are 88 patients with adenocarcinoma, 28 with squamous cell carcinoma, and 3 with other types of NSCLC."
+      }
+    }
+  ]
+}

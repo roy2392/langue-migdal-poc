@@ -61,7 +61,8 @@ class CustomEvaluator(ToolEvaluator):
 
             # Process response
             agent_answer = None
-            input_tokens = output_tokens = 0
+            input_tokens = 0
+            output_tokens = 0
             orc_trace_full = []
             full_trace = []
             
@@ -84,8 +85,8 @@ class CustomEvaluator(ToolEvaluator):
                     # Extract token usage
                     if 'modelInvocationOutput' in orc_trace:
                         usage = orc_trace['modelInvocationOutput']['metadata']['usage']
-                        input_tokens += usage['inputTokens']
-                        output_tokens += usage['outputTokens']
+                        input_tokens += usage.get('inputTokens',0)
+                        output_tokens += usage.get('outputTokens',0)
 
             processed_response = {
                 'agent_generation_metadata': {'ResponseMetadata': raw_response.get('ResponseMetadata', {})},

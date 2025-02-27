@@ -5,6 +5,7 @@ from langfuse import Langfuse
 import helpers.cot_helper as cot_helper
 import time
 import json
+import re
 
 class ToolEvaluator(ABC):
     def __init__(self, 
@@ -96,11 +97,13 @@ class ToolEvaluator(ABC):
 
     def _create_trace(self) -> Any:
         """Create and initialize a Langfuse trace"""
+        traj_num = re.findall(r'\d+$', self.trajectory_id)[0]
+
         return self.langfuse.trace(
             id=self.trace_id,
             session_id=self.session_id,
             input=self.question,
-            name=f"{self.eval_type} - Question {self.question_id}",
+            name=f"T{traj_num}-Q{self.question_id}-{self.eval_type}",
             user_id=self.config['AGENT_ID'],
             tags=[self.eval_type, self.agent_info['agentModel'], self.agent_info['agentType']]
         )
@@ -108,9 +111,11 @@ class ToolEvaluator(ABC):
 
     def _handle_error(self, trace: Any, error: Exception, stage: str) -> None:
         """Handle and log errors during evaluation without raising"""
+        traj_num = re.findall(r'\d+$', self.trajectory_id)[0]
+
         error_message = f"{stage} error: {str(error)}"
         trace.update(
-            name=f"[ERROR] {self.eval_type} - Question {self.question_id}",
+            name=f"[ERROR] T{traj_num}-Q{self.question_id}-{self.eval_type}",
             metadata={"errorMessage": error_message},
             output={"Agent Error": error_message},
             tags=["ERROR"]
@@ -273,14 +278,14 @@ class ToolEvaluator(ABC):
                     model=self.agent_info['agentModel'],
                     model_parameters={"temperature": self.config['TEMPERATURE']},
                     start_time=agent_start_time,
-                    metadata=processed_response['agent_generation_metadata']
+                    metadata=processed_response.get('agent_generation_metadata')
                 )
 
                 agent_generation.end(
-                    output=processed_response['agent_answer'],
+                    output=processed_response.get('agent_answer'),
                     usage_details={
-                        "input": processed_response['input_tokens'],
-                        "output": processed_response['output_tokens']
+                        "input": processed_response.get('input_tokens'),
+                        "output": processed_response.get('output_tokens')
                     }
                 )
 
@@ -337,8 +342,8 @@ class ToolEvaluator(ABC):
                 evaluation_metadata = {
                     'question': self.question,
                     'ground_truth': self.ground_truth,
-                    'agent_response': processed_response['agent_answer'],
-                    'evaluation_metadata': processed_response['agent_generation_metadata'],
+                    'agent_response': processed_response.get('agent_answer'),
+                    'evaluation_metadata': processed_response.get('agent_generation_metadata'),
                     **self.config
                 }
 
@@ -372,7 +377,7 @@ class ToolEvaluator(ABC):
                 return None
                 
         except Exception as e:
-            self._handle_error(trace, e, "Agent Processing")
+            self._handle_error(trace, e, "Agent Invocation")
             return None
         
         except KeyboardInterrupt as e:

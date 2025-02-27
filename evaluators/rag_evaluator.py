@@ -86,14 +86,14 @@ class RAGEvaluator(ToolEvaluator):
                 embeddings=self.bedrock_embeddings
             )
             
-            return {
-                'metrics_scores': {
-                    metric: {'score': score} for metric, score in evaluation_results.scores[0].items()
-                }
-            }
-            
         except Exception as e:
             raise Exception("Error: {}".format(e))
+        
+        return {
+            'metrics_scores': {
+                metric: {'score': score} for metric, score in evaluation_results.scores[0].items()
+            }
+        }
 
 
     def invoke_agent(self, tries: int = 1) -> Tuple[Dict[str, Any], datetime]:
@@ -117,14 +117,18 @@ class RAGEvaluator(ToolEvaluator):
                 agentAliasId=self.config['AGENT_ALIAS_ID'],
                 # Test that this works
                 sessionId=self.session_id,
+                # sessionId=self.trace_id,
                 enableTrace=self.config['ENABLE_TRACE']
             )
+
+            # print(raw_response)
 
 
             # Process response
             rag_contexts = []
             agent_answer = None
-            input_tokens = output_tokens = 0
+            input_tokens = 0
+            output_tokens = 0
             full_trace = []
             
             for event in raw_response['completion']:
@@ -134,7 +138,7 @@ class RAGEvaluator(ToolEvaluator):
                 elif "trace" in event:
                     full_trace.append(event['trace'])
                     trace_obj = event['trace']['trace']
-                    
+                    # print(trace_obj)
                     if "orchestrationTrace" in trace_obj:
                         orc_trace = trace_obj['orchestrationTrace']
 
@@ -150,8 +154,10 @@ class RAGEvaluator(ToolEvaluator):
                         # Extract token usage
                         if 'modelInvocationOutput' in orc_trace:
                             usage = orc_trace['modelInvocationOutput']['metadata']['usage']
-                            input_tokens += usage['inputTokens']
-                            output_tokens += usage['outputTokens']
+                            input_tokens += usage.get('inputTokens',0)
+                            output_tokens += usage.get('outputTokens',0)
+
+            
 
             processed_response = {
                 'agent_generation_metadata': {'ResponseMetadata': raw_response.get('ResponseMetadata', {}), "rag_contexts": rag_contexts},

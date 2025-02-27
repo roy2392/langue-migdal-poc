@@ -198,13 +198,11 @@ def run_evaluation(data_file: str) -> None:
         #For each data file, go into each trajectory
         for trajectoryID, questions in data_dict.items():
             #Iterate through all the questions in each trajectory
-
-            #TODO: set a sessionID that will be shared across all questions in a singe trajectoryID
             
             # Create session ID
             session_id = str(uuid.uuid4())
             # os.environ["SESSION_ID"] = session_id
-            print(f"Session ID for trajectory run: {session_id}")
+            print(f"Session ID for {trajectoryID}: {session_id}")
 
             #go through each question in each trajectory
             for question in questions:
@@ -212,7 +210,7 @@ def run_evaluation(data_file: str) -> None:
                 eval_type = question.get('question_type')
                 question_id = question['question_id']
 
-                print(f"Running {trajectoryID} - {eval_type} - {question_id} evaluation")
+                print(f"Running {trajectoryID} - {eval_type} - Q{question_id} evaluation")
 
                 trace_id = str(uuid.uuid1())
                               
