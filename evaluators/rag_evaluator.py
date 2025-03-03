@@ -1,6 +1,7 @@
 from typing import Dict, Any, List, Tuple
 import boto3
 import time
+import math
 from botocore.client import Config
 from datetime import datetime
 from langchain_aws.chat_models.bedrock import ChatBedrock
@@ -14,6 +15,7 @@ from ragas.metrics import (
     context_recall,
     answer_similarity
 )
+
 
 
 class RAGEvaluator(ToolEvaluator):
@@ -85,10 +87,15 @@ class RAGEvaluator(ToolEvaluator):
                 llm=self.llm_for_evaluation,
                 embeddings=self.bedrock_embeddings
             )
-            
+        
         except Exception as e:
             raise Exception("Error: {}".format(e))
-        
+
+        # Check for NaN values in scores and throw error if found
+        for metric, score in evaluation_results.scores[0].items():
+            if math.isnan(score):
+                raise Exception("Empty score detected, RAGAS had issue evaluating")
+
         return {
             'metrics_scores': {
                 metric: {'score': score} for metric, score in evaluation_results.scores[0].items()
