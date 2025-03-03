@@ -12,7 +12,8 @@ TOP_P = 1
 AGENT_ID=""
 AGENT_ALIAS_ID=""
 
-DATA_FILE_PATH=""
+# Trajectories to evaluate, place data file in data_files/ folder
+DATA_FILE_PATH="data_files/DATA_FILE_NAME"
 
 # Langfuse Project Setup
 LANGFUSE_PUBLIC_KEY=""

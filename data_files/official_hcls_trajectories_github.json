@@ -72,6 +72,18 @@
         "ground_truth_query_result": "Caucasian: 92, Hispanic/Latino: 5, Native Hawaiian/Pacific Islander: 1, African-American: 3, Asian: 18",
         "ground_truth_answer": "The distribution of patients across different ethnicities is as follows: Caucasian: 92, Hispanic/Latino: 5, Native Hawaiian/Pacific Islander: 1, African-American: 3, Asian: 18. This shows that the majority of patients in the study are Caucasian."
       }
+    },
+    {
+      "question_id": 3,
+      "question_type": "CUSTOM",
+      "question": "Can you compute the imaging biomarkers for these 2 patients with patient IDs of R01-083 and R01-040?",
+      "ground_truth": ""
+    },
+    {
+      "question_id": 4,
+      "question_type": "CUSTOM",
+      "question": "Can you compute the imaging biomarkers for the 2 patients with the lowest CD4 expression values?",
+      "ground_truth": ""
     }
   ],
   "Trajectory3": [
@@ -91,6 +103,12 @@
         "ground_truth_query_result": "[{'Histology': 'Adenocarcinoma', 'patient_count': 88}, {'Histology': 'Squamous cell carcinoma', 'patient_count': 28}, {'Histology': 'NSCLC NOS (not otherwise specified)', 'patient_count': 3}]",
         "ground_truth_answer": "There are 88 patients with adenocarcinoma, 28 with squamous cell carcinoma, and 3 with other types of NSCLC."
       }
+    },
+    {
+      "question_id": 2,
+      "question_type": "CUSTOM",
+      "question": "Can you compute the imaging biomarkers for the 2 patients with the lowest gdf15 expression values and then highlight the elongation and sphericity of the tumor with these patients?",
+      "ground_truth": ""
     }
   ],
   "Trajectory4": [
@@ -167,6 +185,18 @@
         "ground_truth_query_result": "12",
         "ground_truth_answer": "The query results indicate that 12 patients received both chemotherapy and radiation treatment."
       }
+    },
+    {
+      "question_id": 2,
+      "question_type": "CUSTOM",
+      "question": "What is the best gene biomarker (lowest p value) with overall survival for patients that have undergone chemotherapy?",
+      "ground_truth": ""
+    },
+    {
+      "question_id": 3,
+      "question_type": "CUSTOM",
+      "question": "Generate a bar chart of the top 5 gene biomarkers based on their p value and include their names in the x axis.",
+      "ground_truth": ""
     }
   ],
   "Trajectory8": [
@@ -262,6 +292,11 @@
         "ground_truth_query_result": "22.3557",
         "ground_truth_answer": "The average expression value of the LRIG1 gene is 22.36."
       }
+    },
+    {
+      "question_id": 2,
+      "question_type": "CUSTOM",
+      "question": "Show me a Kaplan-Meier chart for biomarker with name 'LRIG1' for chemotherapy patients by grouping expression values less than 10 and greater than or equal to 10"
     }
   ],
   "Trajectory13": [
@@ -360,6 +395,12 @@
         "ground_truth_query_result": "[{'tumor_type': 'Solid', 'total_patients': 101, 'chemo_percentage': 42.6}, {'tumor_type': 'Ground-glass', 'total_patients': 6, 'chemo_percentage': 16.7}]",
         "ground_truth_answer": "42.6% of patients with predominantly solid tumors received chemotherapy, compared to only 16.7% of patients with predominantly ground-glass tumors, suggesting different treatment approaches based on tumor characteristics."
       }
+    },
+    {
+      "question_id": 3,
+      "question_type": "CUSTOM",
+      "question": "Show me a Kaplan Meier chart for biomarker with name 'gdf15' for chemotherapy patients by grouping expression values less than 10 and greater than 10",
+      "ground_truth": ""
     }
   ],
   "Trajectory17": [

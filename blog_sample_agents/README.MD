@@ -1,6 +1,6 @@
 # Deploying Sample Agents for Evaluation
 
-You can choose one or both RAG and Text2SQL sample agent to try out evaluations
+You can choose one or both of the RAG and Text2SQL sample agent to try out evaluations
 
 ## Deployment Steps
 
@@ -39,7 +39,4 @@ pip3 install -r requirements.txt
 3. Run the driver.py script to run evaluations.
 4. Check the langfuse console for traces and evaluation metrics (Refer to the 'Navigating the Langfuse Console' section in the root readme)
 
-
 FOR RUNNING EVALUTION: MAYBE HAVE A SINGLE DATASET FILE THAT WILL RUN UNLESS OVERRIDDEN. THE DATAFILE TO RUN WILL BE SPECIFIED IN THE CONFIGURATION FILE. FOR THIS SAMPLE AGENTS, THE DEFAULT IS A GIVEN SAMPLE DATAFILE (THE USER WILL NEED TO REPLACE WITH THE GIVEN SAMPLE), OR IF THEY WANT TO CREATE THEIR OWN, RUNNING EACH DATA GENERATION FOR EACH TYPE OF AGENT WILL WRITE TO A NEW FILE OR TO THE EXISTING SAMPLE DATAFILE (FOR GENERATING DATASET, CHECK IF EACH TAG EXISTS FOR THAT SPECIFIC TOOL, AND IF IT EXISTS, EMPTY IT AND WRITE IT IN THERE, AND IF NOT JUST CREATE A NEW ONE)
-
-

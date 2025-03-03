@@ -152,7 +152,7 @@ def create_evaluator(eval_type: str, config: Dict[str, Any],
     evaluator_map = {
         'RAG': RAGEvaluator,
         'TEXT2SQL': Text2SQLEvaluator,
-        'COT': CustomEvaluator
+        'CUSTOM': CustomEvaluator
         # Add other evaluator types here
     }
     
