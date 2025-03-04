@@ -214,7 +214,7 @@ class ToolEvaluator(ABC):
             # Invoke tool and get processed response
             full_trace, processed_response, agent_start_time = self.invoke_agent()
 
-            print("Processed Response: {}".format(processed_response))
+            # print("Processed Response: {}".format(processed_response))
             # print("Number of Steps: {}".format(len(full_trace)))
             # print("Full Trace: {}".format(full_trace))
             #if there is no response, then raise an error
