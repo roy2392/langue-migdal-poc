@@ -214,7 +214,7 @@ class ToolEvaluator(ABC):
             # Invoke tool and get processed response
             full_trace, processed_response, agent_start_time = self.invoke_agent()
 
-            
+            print("Processed Response: {}".format(processed_response))
             # print("Number of Steps: {}".format(len(full_trace)))
             # print("Full Trace: {}".format(full_trace))
             #if there is no response, then raise an error
@@ -355,7 +355,7 @@ class ToolEvaluator(ABC):
                 # TRACE SCORE UPDATE
 
                 # TODO: Make the logic better, stopgap solution
-                if self.eval_type != "COT":
+                if self.eval_type != "CUSTOM":
                     for metric_name, metric_info in evaluation_results['metrics_scores'].items():
                         trace.score(name=str(self.eval_type + "_" + metric_name), value=metric_info.get('score'), comment=metric_info.get('explanation'))
                 

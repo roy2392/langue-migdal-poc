@@ -14,29 +14,58 @@ import requests
 import base64
 
 #import necessary user-defined configs
-from config import (
-    #AGENT SETUP
-    AGENT_ID, 
-    AGENT_ALIAS_ID, 
+# from config import (
+#     #AGENT SETUP
+#     AGENT_ID, 
+#     AGENT_ALIAS_ID, 
 
-    #LANGFUSE SETUP
-    LANGFUSE_PUBLIC_KEY, 
-    LANGFUSE_SECRET_KEY, 
-    LANGFUSE_HOST,
+#     #LANGFUSE SETUP
+#     LANGFUSE_PUBLIC_KEY, 
+#     LANGFUSE_SECRET_KEY, 
+#     LANGFUSE_HOST,
     
-    #MODEL HYPERPARAMETERS
-    MAX_TOKENS, 
-    TEMPERATURE, 
-    TOP_P, 
+#     #MODEL HYPERPARAMETERS
+#     MAX_TOKENS, 
+#     TEMPERATURE, 
+#     TOP_P, 
 
-    #EVALUATION MODELS
-    MODEL_ID_EVAL,
-    EMBEDDING_MODEL_ID,
-    MODEL_ID_EVAL_COT,
+#     #EVALUATION MODELS
+#     MODEL_ID_EVAL,
+#     EMBEDDING_MODEL_ID,
+#     MODEL_ID_EVAL_COT,
 
-    #DATA
-    DATA_FILE_PATH
-)
+#     #DATA
+#     DATA_FILE_PATH
+# )
+
+from dotenv import load_dotenv
+
+# Load environment variables from config.env
+load_dotenv('config.env')
+
+# Get environment variables
+
+#AGENT SETUP
+AGENT_ID = os.getenv('AGENT_ID')
+AGENT_ALIAS_ID = os.getenv('AGENT_ALIAS_ID')
+
+#LANGFUSE SETUP
+LANGFUSE_PUBLIC_KEY = os.getenv('LANGFUSE_PUBLIC_KEY')
+LANGFUSE_SECRET_KEY = os.getenv('LANGFUSE_SECRET_KEY')
+LANGFUSE_HOST = os.getenv('LANGFUSE_HOST')
+
+#MODEL HYPERPARAMETERS
+MAX_TOKENS = int(os.getenv('MAX_TOKENS'))
+TEMPERATURE = float(os.getenv('TEMPERATURE'))
+TOP_P = float(os.getenv('TOP_P'))
+
+#EVALUATION MODELS
+MODEL_ID_EVAL = os.getenv('MODEL_ID_EVAL')
+EMBEDDING_MODEL_ID = os.getenv('EMBEDDING_MODEL_ID')
+MODEL_ID_EVAL_COT = os.getenv('MODEL_ID_EVAL_COT')
+
+#DATA
+DATA_FILE_PATH = os.getenv('DATA_FILE_PATH')
 
 # def process_model_definitions(agent_model_id):
 
@@ -229,17 +258,17 @@ def run_evaluation(data_file: str) -> None:
                     results = evaluator.run_evaluation()
                     if results is None:
                         print(f"Skipping {trajectoryID} question {question_id} due to evaluation failure")
-                        time.sleep(60)
+                        time.sleep(90)
                         continue
                         
                     print(f"Successfully evaluated {trajectoryID} question {question_id}")
                     # print(results)
-                    time.sleep(60)
+                    time.sleep(90)
                     
                 except Exception as e:
                     print(f"Failed to evalute for {trajectoryID} question {question_id}: {str(e)}")
                     #if not a bedrock error, continue to next question
-                    time.sleep(60)
+                    time.sleep(90)
                     continue
                 
                 # TODO: Implement langfuse.flush() functionality
