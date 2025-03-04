@@ -166,6 +166,19 @@ def query_athena(query, database_name='california_schools'):
         print(f"Error executing query: {e}")
         raise
 
+def upload_result_s3(result, bucket, key):
+    s3_client = boto3.client('s3')
+    s3_client.put_object(
+        Bucket=bucket,
+        Key=key,
+        Body=json.dumps(result)
+    )
+    return {
+        "storage": "s3",
+        "bucket": bucket,
+        "key": key
+    }
+
 def lambda_handler(event, context):
     result = None
     error_message = None
@@ -193,12 +206,26 @@ def lambda_handler(event, context):
     except Exception as e:
         error_message = str(e)
         print(f"Error occurred: {error_message}")
+
+    BUCKET_NAME = os.environ['BUCKET_NAME']
+    KEY = str(uuid.uuid4()) + '.json'
+    size = sys.getsizeof(str(result)) if result else 0
+    print(f"Response size: {size} bytes")
     
-    response_body = {
-        'application/json': {
-            'body': str(result) if result else error_message
+    if size > 20000:
+        print('Size greater than 20KB, writing to a file in S3')
+        result = upload_result_s3(result, BUCKET_NAME, KEY)
+        response_body = {
+            'application/json': {
+                'body': f"Result uploaded to S3. Bucket: {BUCKET_NAME}, Key: {KEY}"
+            }
         }
-    }
+    else:
+        response_body = {
+            'application/json': {
+                'body': str(result) if result else error_message
+            }
+        }
 
     action_response = {
         'actionGroup': event['actionGroup'],
