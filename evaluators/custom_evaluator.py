@@ -2,7 +2,7 @@ from typing import Dict, Any, List, Tuple
 import time
 from datetime import datetime
 from ragas import evaluate
-from evaluators.base_evaluator import ToolEvaluator
+from evaluators.cot_evaluator import ToolEvaluator
 
 class CustomEvaluator(ToolEvaluator):
     def __init__(self, **kwargs):

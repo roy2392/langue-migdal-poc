@@ -8,7 +8,7 @@ from langchain_aws.chat_models.bedrock import ChatBedrock
 from langchain_aws.embeddings.bedrock import BedrockEmbeddings
 from datasets import Dataset
 from ragas import evaluate
-from evaluators.base_evaluator import ToolEvaluator
+from evaluators.cot_evaluator import ToolEvaluator
 from ragas.metrics import (
     faithfulness,
     answer_relevancy,

@@ -8,7 +8,7 @@ from ragas.metrics._factual_correctness import FactualCorrectness
 import asyncio
 import json
 import time
-from evaluators.base_evaluator import ToolEvaluator
+from evaluators.cot_evaluator import ToolEvaluator
 
 class Text2SQLEvaluator(ToolEvaluator):
     def __init__(self, **kwargs):
