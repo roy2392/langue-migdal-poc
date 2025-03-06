@@ -91,12 +91,12 @@ pip3 install -r requirements.txt
 1. Bring your existing agent you want to evaluate (Currently RAG and Text2SQL evaluations built-in)
 2. Create a dataset file for evaluations, manually or using the generator (Refer to the data_files/sample_data_file.json for the necessary format)
 
-3. Copy the config_tpl.py into a 'config.py' configuration file and fill in the necessary information
+3. Copy the template configuration file and fill in the necessary information
 ```bash
 cp config_tpl.env.tpl config.env
 ```
 
-4. Run driver.py to run the evaluation job
+4. Run driver.py to execute evaluation job against dataset
 ```bash
 python3 driver.py
 ```
