@@ -4,6 +4,7 @@ Bedrock Agent Evaluation is an evalauation framework for Amazon Bedrock agent to
 
 ## Existing AWS assets
 https://github.com/awslabs/agent-evaluation implements an LLM agent (evaluator) that will orchestrate conversations with your own agent (target) and evaluate the responses during the conversation.
+
 Our repository provides the following additional features: 
 
 ## Features
