@@ -5,9 +5,6 @@ import json
 # Goal: Evaluate agent CoT using LLM-as-judge and output results
 def evaluate_cot(agent_cot:str, agent_response:str, agent_info:list, client, MODEL_ID_EVAL_COT):
 
-    # print("Agent CoT: {}".format(agent_cot))
-    # print("Agent Instructions: {}".format(agent_info['agentInstruction']))
-
     # Clean inputs to template
     agent_instructions = agent_info['agentInstruction']
     collaborator_instructions = agent_info['collaborators']

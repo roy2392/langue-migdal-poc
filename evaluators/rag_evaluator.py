@@ -16,8 +16,6 @@ from ragas.metrics import (
     answer_similarity
 )
 
-
-
 class RAGEvaluator(ToolEvaluator):
     def __init__(self, **kwargs):
         """
@@ -127,8 +125,6 @@ class RAGEvaluator(ToolEvaluator):
                 # sessionId=self.trace_id,
                 enableTrace=self.config['ENABLE_TRACE']
             )
-
-            # print(raw_response)
 
 
             # Process response

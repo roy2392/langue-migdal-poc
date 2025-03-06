@@ -23,7 +23,7 @@ class CustomEvaluator(ToolEvaluator):
 
     def evaluate_response(self, metadata: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Evaluate the RAG response using specified metrics
+        Evaluate just COT with no scores returned
         
         Args:
             metadata (Dict[str, Any]): Evaluation metadata
@@ -54,7 +54,6 @@ class CustomEvaluator(ToolEvaluator):
                 inputText=self.question,
                 agentId=self.config['AGENT_ID'],
                 agentAliasId=self.config['AGENT_ALIAS_ID'],
-                # Confirm that this works
                 sessionId=self.session_id,
                 enableTrace=self.config['ENABLE_TRACE']
             )

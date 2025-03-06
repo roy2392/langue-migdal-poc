@@ -77,17 +77,11 @@ class AgentInfoExtractor:
             
             # Create dictionary with specific collaborator's info
             collab_info = {
-                # "collaboratorAgentId": collab['agentDescriptor']['aliasArn'].split('/')[-2],
-                # "collaboratorAlias": collab['agentDescriptor']['aliasArn'].split('/')[-1],
-                # "collaboratorId": collab['collaboratorId'],
                 "collaborationInstruction": collab['collaborationInstruction'],
             }
 
             # Use collab_name as key
             collaborator_info[collab['collaboratorName']] = collab_info
-
-            
-        # print(collaborator_info)
 
         return collaborator_info
 

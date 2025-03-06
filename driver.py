@@ -10,33 +10,6 @@ from evaluators.custom_evaluator import CustomEvaluator
 from botocore.client import Config
 from helpers.agent_info_extractor import AgentInfoExtractor
 import time
-import requests
-import base64
-
-#import necessary user-defined configs
-# from config import (
-#     #AGENT SETUP
-#     AGENT_ID, 
-#     AGENT_ALIAS_ID, 
-
-#     #LANGFUSE SETUP
-#     LANGFUSE_PUBLIC_KEY, 
-#     LANGFUSE_SECRET_KEY, 
-#     LANGFUSE_HOST,
-    
-#     #MODEL HYPERPARAMETERS
-#     MAX_TOKENS, 
-#     TEMPERATURE, 
-#     TOP_P, 
-
-#     #EVALUATION MODELS
-#     MODEL_ID_EVAL,
-#     EMBEDDING_MODEL_ID,
-#     MODEL_ID_EVAL_COT,
-
-#     #DATA
-#     DATA_FILE_PATH
-# )
 
 from dotenv import load_dotenv
 
@@ -66,70 +39,6 @@ MODEL_ID_EVAL_COT = os.getenv('MODEL_ID_EVAL_COT')
 
 #DATA
 DATA_FILE_PATH = os.getenv('DATA_FILE_PATH')
-
-# def process_model_definitions(agent_model_id):
-
-#     # Create base64 encoded auth string
-#     BASE_URL = "https://us.cloud.langfuse.com/api/public"
-    
-#     auth_str = f"{LANGFUSE_PUBLIC_KEY}:{LANGFUSE_SECRET_KEY}"
-#     base64_auth = base64.b64encode(auth_str.encode('ascii')).decode('ascii')
-    
-#     # Headers
-#     headers = {
-#         "Authorization": f"Basic {base64_auth}",
-#         "Content-Type": "application/json"
-#     }
-    
-#     # Make request
-#     response = requests.get(
-#         f"{BASE_URL}/models",
-#         headers=headers
-#     )
-    
-#     #iterate through model name and match
-#     json_data = response.json()
-
-#     print(json_data)
-    
-#     models = [item['modelName'] for item in json_data['data']]
-
-#     create_definition = True
-#     for model in models:
-#         print("Model in LangFuse: {}".format(model))
-#         if agent_model_id.startswith(model):
-#             print("Not creating model definition")
-#             create_definition = False
-
-    
-#     if create_definition:
-
-#         print("Creating model definition")
-#         response = requests.post(
-#             f"{BASE_URL}/models",
-#             headers = headers,
-#             json =
-#                 {
-#                     "modelName": agent_model_id,
-#                     "matchPattern": "^(us\.)?amazon\.nova-pro-v1:0$",
-#                     "unit": "TOKENS",
-#                     "inputPrice": 0.0000008,
-#                     "outputPrice": 0.0000032,
-#                 }
-#         )
-
-#         # Make second request to get all models
-#         response = requests.get(
-#             f"{BASE_URL}/models",
-#             headers=headers
-#         )
-        
-#         json_data = response.json()
-
-#         print("Models second request: {}".format([item['modelName'] for item in json_data['data']]))
-#         # print("Post response: {}".format(response))
-
- 
 
 def setup_environment() -> None:
     """Setup environment variables for Langfuse"""
@@ -201,8 +110,6 @@ def create_evaluator(eval_type: str, config: Dict[str, Any],
         question_id=data['question_id']
     )
 
-       
-
 def run_evaluation(data_file: str) -> None:
     """Main evaluation function"""
     # Setup
@@ -213,13 +120,6 @@ def run_evaluation(data_file: str) -> None:
     extractor = AgentInfoExtractor(config['clients']['bedrock_agent_client'])
     agent_info = extractor.extract_agent_info(AGENT_ID, AGENT_ALIAS_ID)
     
-    # Extract agent model from agent info
-    # agent_model = agent_info['agentModel']
-
-    # Check if model definition exists in LangFuse and create if needed
-    #TODO: Ask Hasan if this is necessary
-    # process_model_definitions(agent_model)
-    
     # Load and process data
     with open(data_file, 'r') as f:
         data_dict = json.load(f)
@@ -228,9 +128,8 @@ def run_evaluation(data_file: str) -> None:
         for trajectoryID, questions in data_dict.items():
             #Iterate through all the questions in each trajectory
             
-            # Create session ID
+            # Create unqiue session ID for trajectory
             session_id = str(uuid.uuid4())
-            # os.environ["SESSION_ID"] = session_id
             print(f"Session ID for {trajectoryID}: {session_id}")
 
             #go through each question in each trajectory
@@ -271,7 +170,6 @@ def run_evaluation(data_file: str) -> None:
                     time.sleep(90)
                     continue
                 
-                # TODO: Implement langfuse.flush() functionality
                 except KeyboardInterrupt:
                     sys.exit(0)
             

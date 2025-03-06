@@ -204,9 +204,6 @@ class ToolEvaluator(ABC):
     def run_evaluation(self) -> Dict[str, Any]:
         """Run the complete evaluation pipeline"""
         trace = self._create_trace()
-        
-
-        #TODO: Add CoT functionality to base evaluator instead of separate one
 
         # Invoke try block
         try:
@@ -214,15 +211,10 @@ class ToolEvaluator(ABC):
             # Invoke tool and get processed response
             full_trace, processed_response, agent_start_time = self.invoke_agent()
 
-            # print("Processed Response: {}".format(processed_response))
-            # print("Number of Steps: {}".format(len(full_trace)))
-            # print("Full Trace: {}".format(full_trace))
             #if there is no response, then raise an error
             if not processed_response or not processed_response.get('agent_answer'):
                 self._handle_error(trace, Exception("Failed to get or process agent response"), "Agent Processing")
                 return None
-            
-            # print(processed_response['agent_answer'])
 
             trace.update(
                 metadata={
@@ -236,17 +228,11 @@ class ToolEvaluator(ABC):
             # Evaluation try block
             try:
                 
-                #HARDCODED DATA HANDLING
-                
                 # Eliminate unneeded information for COT evaluation
                 orc_trace_full = [item['trace']['orchestrationTrace'] for item in full_trace if 'orchestrationTrace' in item['trace']]
                 
                 #Combine all the traces with the same trace ID
                 trace_step_spans = self.combine_traces(full_trace)
-                
-                # print("Trace List: {}".format(trace_step_spans))
-
-                # print("Number of Trace Steps: {}".format(len(trace_list)))
 
                 trimmed_orc_trace = [item['rationale']['text'] for item in orc_trace_full if 'rationale' in item]
 
@@ -254,20 +240,15 @@ class ToolEvaluator(ABC):
                 for i, item in enumerate(trimmed_orc_trace, 1):
                     trace_steps += f"Step {i}: {item}\n"
 
-                # print("Trace Steps: {}".format(trace_steps))
-
                 agents_used = {self.agent_info['agentName']}
 
                 # Add collaborator agents if multi-agent in use
                 if self.agent_info['agentType'] == "MULTI-AGENT":
                     agents_used = self._add_agent_collaborators(agents_used, orc_trace_full)
 
-                
-
                 # Chain of thought processes whole agent trace + agent info
                 cot_eval_results, cot_system_prompt = cot_helper.evaluate_cot(trace_steps, processed_response['agent_answer'],self.agent_info, self.clients['bedrock_runtime'], self.config['MODEL_ID_EVAL_COT'])
-       
-                          
+                
                 # Create an evaluation generation
                 agent_generation = trace.generation(
                     name= "Agent Generation Information",
@@ -289,11 +270,8 @@ class ToolEvaluator(ABC):
                     }
                 )
 
-
-                
-
-
                 #CHAIN OF THOUGHT EVALUATION SECTION START 
+
                 # Create generation based on CoT output
                 cot_generation = trace.generation(
                     name="CoT Evaluation LLM-As-Judge Generation",
@@ -320,7 +298,7 @@ class ToolEvaluator(ABC):
 
                     subtrace_span.end()
 
-                    #Temporary solution to spans getting sent out of order
+                    # Prevents trace spans from getting sent out of order
                     time.sleep(1)
 
                 cot_generation.end()
@@ -347,22 +325,14 @@ class ToolEvaluator(ABC):
                     **self.config
                 }
 
-                
-
-                # print("Evaluation metadata: {}".format(evaluation_metadata))
                 evaluation_results = self.evaluate_response(evaluation_metadata)
-                
-                # TRACE SCORE UPDATE
 
-                # TODO: Make the logic better, stopgap solution
+                # TODO: Make the logic better, stopgap solution to work with custom
                 if self.eval_type != "CUSTOM":
                     for metric_name, metric_info in evaluation_results['metrics_scores'].items():
                         trace.score(name=str(self.eval_type + "_" + metric_name), value=metric_info.get('score'), comment=metric_info.get('explanation'))
-                
-                # print("Agent Answer: {}".format(processed_response['agent_answer']))
 
                 # Update trace with final results
-
                 return {
                     'question_id': self.question_id,
                     'question': self.question,
