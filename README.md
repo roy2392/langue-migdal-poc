@@ -1,13 +1,19 @@
 # Amazon Bedrock Agent Evaluation
 
-Bedrock Agent Evaluation is an evalauation framework for Amazon Bedrock agent tool-use and chain-of-thought reasoning.
+Bedrock Agent Evaluation is an evalauation framework for Amazon Bedrock agent tool-use and chain-of-thought reasoning with observability dashboards in LangFuse. 
+
+## Existing AWS assets
+https://github.com/awslabs/agent-evaluation implements an LLM agent (evaluator) that will orchestrate conversations with your own agent (target) and evaluate the responses during the conversation.
+
+Our repository provides the following additional features: 
 
 ## Features
 
 - Test your own Bedrock Agent with custom questions
-- Includes built-in evaluation for RAG, Text2SQL, and Chain-of-Thought
-- Extend the capabilities to include custom tool evaluations
-- Integrated with LangFuse for easy observability of evaluation results
+- Provides the option for LLM-as-a-judge without ground truth reference
+- Includes both Agent Goal metrics for chain of thought , and Task specific metrics with RAG, Text2SQL and custom tools
+- Observability with integration with Langfuse that includes latency and cost information
+- Dashboard comparison for comparison of agents with multiple Bedrock LLMs
 
 
 ### Deployment Options
