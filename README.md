@@ -15,6 +15,21 @@ Our repository provides the following additional features:
 - Observability with integration with Langfuse that includes latency and cost information
 - Dashboard comparison for comparison of agents with multiple Bedrock LLMs
 
+## Evaluation Workflow
+
+![Evaluation Workflow](img/evaluation_workflow.png)
+
+## Evaluation Results in Langfuse
+
+### Dashboard
+![Example Dashboard](blog_sample_agents/img/rag_langfuse_dashboard.png)
+
+### Panel of Traces
+![Example Traces](blog_sample_agents/img/rag_trace_dashboard.png)
+
+### Individual Trace
+![Example Trace](blog_sample_agents/img/rag_trace.png)
+
 
 ### Deployment Options
 1. Clone this repo to a SageMaker notebook instance
