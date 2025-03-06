@@ -104,7 +104,7 @@ python3 driver.py
 5. Check your Langfuse project console to see the evaluation results!
 
 ### Option 2: Create Sample Agents to run Evaluations
-Follow the instructions in the [Blog Sample Agents README](blog_sample_agents/README.md). This is a guided way to run the evaluation framework on pre-created Bedrock Agents.
+Follow the instructions in the [Blog Sample Agents README](blog_sample_agents/README.MD). This is a guided way to run the evaluation framework on pre-created Bedrock Agents.
 
 ## Security
 

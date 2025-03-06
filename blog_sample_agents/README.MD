@@ -6,7 +6,7 @@ You can choose one or both of the RAG and Text2SQL sample agent to try out evalu
 
 1. Set up a Langfuse project using either the cloud version www.langfuse.com or the AWS self-hosted option https://github.com/aws-samples/deploy-langfuse-on-ecs-with-fargate/tree/main/langfuse-v3
 
-2. If you are using the self-hosted option and want to see model costs then you must create a model definition in Langfuse for "us.anthropic.claude-3-5-sonnet-20241022-v2:0", instructions can be found here https://langfuse.com/docs model-usage-and-cost#custom-model-definitions
+2. If you are using the self-hosted option and want to see model costs then you must create a model definition in Langfuse for "us.anthropic.claude-3-5-sonnet-20241022-v2:0", instructions can be found here https://langfuse.com/docs/model-usage-and-cost#custom-model-definitions
 
 3. Create a SageMaker notebook instance in your AWS account
 
