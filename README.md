@@ -36,7 +36,16 @@ Our repository provides the following additional features:
 2. Clone this repo locally and set up AWS CLI credentials to your AWS account
 
 ### Pre-Requisites
-Set up a LangFuse account and create a project using the cloud www.langfuse.com or self-host option for AWS https://github.com/aws-samples/deploy-langfuse-on-ecs-with-fargate/tree/main/langfuse-v3
+
+1. Set up a LangFuse account using the cloud https://www.langfuse.com or the self-host option for AWS https://github.com/aws-samples/deploy-langfuse-on-ecs-with-fargate/tree/main/langfuse-v3
+
+2. Create an organization in Langfuse
+
+3. Create a project within your Langfuse organization
+
+4. Save your Langfuse project keys (Secret Key, Public Key, and Host) to use in config
+
+5. If you are using the self-hosted option and want to see model costs then you must create a model definition in Langfuse for the LLM used by your agent, instructions can be found here https://langfuse.com/docs/model-usage-and-cost#custom-model-definitions
 
 ### SageMaker Notebook Deployment Steps
 
@@ -84,7 +93,7 @@ pip3 install -r requirements.txt
 
 3. Copy the config_tpl.py into a 'config.py' configuration file and fill in the necessary information
 ```bash
-cp config_tpl.py config.py
+cp config_tpl.env.tpl config.env
 ```
 
 4. Run driver.py to run the evaluation job
