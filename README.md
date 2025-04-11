@@ -58,7 +58,7 @@ cd SageMaker/
 
 3. Clone this repository
 ```bash
-git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framework
+git clone https://github.com/aws-samples/open-source-bedrock-agent-evaluation.git
 ```
 
 4. Navigate to the repository and install the necessary requirements
@@ -71,7 +71,7 @@ pip3 install -r requirements.txt
 
 1. Clone this repository
 ```bash
-git clone https://github.com/aws-samples/amazon-bedrock-agent-evaluation-framework
+git clone https://github.com/aws-samples/open-source-bedrock-agent-evaluation.git
 ```
 
 2. Navigate to the repository and install the necessary requirements
