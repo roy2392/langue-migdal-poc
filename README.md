@@ -76,7 +76,7 @@ git clone https://github.com/aws-samples/open-source-bedrock-agent-evaluation.gi
 
 2. Navigate to the repository and install the necessary requirements
 ```bash
-cd amazon-bedrock-agent-evaluation-framework/
+cd open-source-bedrock-agent-evaluation/
 pip3 install -r requirements.txt
 ```
 
