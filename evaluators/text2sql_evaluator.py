@@ -131,13 +131,13 @@ class Text2SQLEvaluator(ToolEvaluator):
                         orc_trace = trace_obj['orchestrationTrace']
                         
                         # Extract SQL query
-                        if 'invocationInput' in orc_trace:
-                            invoc_trace = orc_trace['invocationInput']
-                            if 'actionGroupInvocationInput' in invoc_trace:
-                                action_trace = invoc_trace['actionGroupInvocationInput']
-                                if 'apiPath' in action_trace:
-                                    if action_trace['apiPath'] == "/queryredshift":
-                                        agent_query = action_trace['parameters'][0]['value']
+                        if 'observation' in orc_trace:
+                            invoc_trace = orc_trace['observation']
+                            if 'actionGroupInvocationOutput' in invoc_trace:
+                                action_trace = invoc_trace['actionGroupInvocationOutput']
+                                if 'text' in action_trace:
+                                    if "the query i used" in action_trace['text']:
+                                        agent_query = action_trace['text'].split("the query i used: ")[1]
                         
                         # Extract token usage if available
                         if 'modelInvocationOutput' in orc_trace:

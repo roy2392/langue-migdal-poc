@@ -14,12 +14,13 @@ import time
 from dotenv import load_dotenv
 
 # Load environment variables from config.env
-load_dotenv('config.env')
+load_dotenv()
 
 # Get environment variables
 
 #AGENT SETUP
 AGENT_ID = os.getenv('AGENT_ID')
+
 AGENT_ALIAS_ID = os.getenv('AGENT_ALIAS_ID')
 
 #LANGFUSE SETUP
@@ -61,13 +62,15 @@ def get_config() -> Dict[str, Any]:
     )
 
     shared_clients = {
-        'bedrock_agent_client': boto3.client('bedrock-agent'),
+        'bedrock_agent_client': boto3.client("bedrock-agent", region_name="eu-west-1"),
         'bedrock_agent_runtime': boto3.client(
-            'bedrock-agent-runtime',
+            'bedrock-agent-runtime', 
+            region_name="eu-west-1",
             config=bedrock_config
         ),
-        'bedrock_runtime': boto3.client('bedrock-runtime')
+        'bedrock_runtime': boto3.client('bedrock-runtime', region_name="eu-west-1")
     }
+    
 
     return {
         'AGENT_ID': AGENT_ID,
@@ -113,7 +116,12 @@ def create_evaluator(eval_type: str, config: Dict[str, Any],
 def run_evaluation(data_file: str) -> None:
     """Main evaluation function"""
     # Setup
+
+
+    print("data_file", data_file)
     setup_environment()
+
+    print(111)
     config = get_config()
     
     # Initialize clients and extractors
