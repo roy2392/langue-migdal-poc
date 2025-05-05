@@ -395,8 +395,8 @@
         "question": "כמה משימות יש לי בסך הכל בכל התחומים?",
         "question_type": "TEXT2SQL",
         "ground_truth": {
-          "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1'",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.elementar_general WHERE partition_user_id = '1'",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "515",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, יש לך 515 משימות פתוחות בכל התחומים."
         }
@@ -409,7 +409,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND taskClassification = 'שימור'",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "96",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 96 משימות משויכות לטיפול הסוכן בתחום השימור."
         }
@@ -422,7 +422,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND insuranceType = 'ביטוח דירה'",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "85",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 85 פוליסות הן מסוג ביטוח דירה."
         }
@@ -435,7 +435,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT taskType, COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' GROUP BY taskType ORDER BY COUNT(*) DESC LIMIT 3",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "עזיבת עבודה, הצעות, הפקה לניוד",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, המשימות הנפוצות ביותר באלמנטר הן: עזיבת עבודה, הצעות, הפקה לניוד."
         }
@@ -448,7 +448,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND missingPartyDocumentsStatus IS NOT NULL",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "515",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 515 משימות עדיין ממתינות למסמכים חסרים."
         }
@@ -461,7 +461,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND insuranceHighLevelClasification = 'חיים'",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "267",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 267 מהפוליסות הן בתחום ביטוח חיים."
         }
@@ -474,7 +474,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND isInsuranceRenewedOnline = TRUE",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "265",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 265 פוליסות חודשו באופן מקוון."
         }
@@ -487,7 +487,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND isInsurancePaidByCreditCard = TRUE",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "275",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 275 פוליסות משולמות בכרטיס אשראי."
         }
@@ -500,7 +500,7 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT agentArea, COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' GROUP BY agentArea ORDER BY COUNT(*) DESC LIMIT 3",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "צפון, שפלה, ירושלים",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, אזורי הפעילות המרכזיים שלך הם: צפון, שפלה, ירושלים."
         }
@@ -513,10 +513,270 @@
         "question_type": "TEXT2SQL",
         "ground_truth": {
           "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.general WHERE partition_user_id = '1' AND isNewInsurance = TRUE",
-          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.general'}]",
+          "ground_truth_sql_context": "[{'table_name': 'migdal_zone_tasks.elementar_general'}]",
           "ground_truth_query_result": "264",
           "ground_truth_answer": "לפי הבדיקה שביצעתי, 264 פוליסות נפתחו לאחרונה ונחשבות לחדשות."
         }
       }
-    ]
-  }
+    ],
+    "Trajectory40": [
+    {
+      "question_id": 40,
+      "question": "כמה משימות יש לי בטבלת כל-המשימות המאוחדת?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "1243",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, יש לך 1,243 משימות בטבלה המאוחדת."
+      }
+    }
+  ],
+  "Trajectory41": [
+    {
+      "question_id": 41,
+      "question": "כמה משימות מסווגות לתחום חיים?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' AND insuranceHighLevelClasification = 'חיים'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "678",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 678 משימות מסווגות לתחום חיים."
+      }
+    }
+  ],
+  "Trajectory42": [
+    {
+      "question_id": 42,
+      "question": "כמה משימות מסווגות לתחום אלמנטר?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' AND insuranceHighLevelClasification = 'אלמנטר'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "565",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 565 משימות מסווגות לתחום אלמנטר."
+      }
+    }
+  ],
+  "Trajectory43": [
+    {
+      "question_id": 43,
+      "question": "אילו סוגי משימות נפוצות ביותר בכל-המשימות?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT taskType, COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' GROUP BY taskType ORDER BY COUNT(*) DESC LIMIT 5",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "הפקה 210; חידושים 190; תנאי חיתום 160; הלוואות 150; פדיון 120",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, סוגי המשימות הנפוצות ביותר הם: הפקה, חידושים, תנאי חיתום, הלוואות ופדיון."
+      }
+    }
+  ],
+  "Trajectory44": [
+    {
+      "question_id": 44,
+      "question": "באיזה אזור סוכן יש לי הכי הרבה משימות?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT agentArea, COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' GROUP BY agentArea ORDER BY COUNT(*) DESC LIMIT 1",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "צפון 375",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, אזור הצפון הוא בעל מספר המשימות הגבוה ביותר."
+      }
+    }
+  ],
+  "Trajectory45": [
+    {
+      "question_id": 45,
+      "question": "כמה משימות קשורות לביטוח רכב?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' AND insuranceType = 'ביטוח רכב'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "312",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, יש לך 312 משימות בתחום ביטוח הרכב."
+      }
+    }
+  ],
+  "Trajectory46": [
+    {
+      "question_id": 46,
+      "question": "כמה משימות קשורות לביטוח דירה?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' AND insuranceType = 'ביטוח דירה'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "198",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, יש לך 198 משימות בתחום ביטוח הדירה."
+      }
+    }
+  ],
+  "Trajectory47": [
+    {
+      "question_id": 47,
+      "question": "מהו הגיל הממוצע של הלקוחות בכל-המשימות?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(age) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "42.3",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, הגיל הממוצע של הלקוחות הוא 42.3."
+      }
+    }
+  ],
+  "Trajectory48": [
+    {
+      "question_id": 48,
+      "question": "כמה משימות עם ביטוח פרטי יש לי?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' AND isPrivateInsurance = TRUE",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "890",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 890 משימות קשורות לביטוחים פרטיים."
+      }
+    }
+  ],
+  "Trajectory49": [
+    {
+      "question_id": 49,
+      "question": "כמה משימות קשורות לביטוחים קולקטיביים?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.all_tasks WHERE partition_user_id = '1' AND isCollectiveInsurance = TRUE",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.all_tasks\"}]",
+        "ground_truth_query_result": "353",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 353 משימות קשורות לביטוחים קולקטיביים."
+      }
+    }
+  ],
+  "Trajectory50": [
+    {
+      "question_id": 50,
+      "question": "כמה משימות שימור פתוחות יש לי?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND isRetention = TRUE",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "420",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, יש לך 420 משימות שימור פתוחות."
+      }
+    }
+  ],
+  "Trajectory51": [
+    {
+      "question_id": 51,
+      "question": "כמה משימות שימור בסטטוס \"בטיפול\"?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND retentionStatus = 'בטיפול'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "112",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 112 משימות שימור מצויות בסטטוס בטיפול."
+      }
+    }
+  ],
+  "Trajectory52": [
+    {
+      "question_id": 52,
+      "question": "כמה משימות שימור בסטטוס \"לא מעוניין\"?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND retentionStatus = 'לא מעוניין'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "58",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 58 משימות שימור מסומנות כ\"לא מעוניין\"."
+      }
+    }
+  ],
+  "Trajectory53": [
+    {
+      "question_id": 53,
+      "question": "מהו סכום הפרמיה השנתית הממוצע במשימות השימור?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(insuranceYearlyPrimumSum) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "5620.75",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, סכום הפרמיה השנתית הממוצע הוא ‎5,620.75 ש\"ח."
+      }
+    }
+  ],
+  "Trajectory54": [
+    {
+      "question_id": 54,
+      "question": "כמה משימות שימור קולקטיביות יש לי?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND isCollective = TRUE",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "135",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 135 משימות שימור הן קולקטיביות."
+      }
+    }
+  ],
+  "Trajectory55": [
+    {
+      "question_id": 55,
+      "question": "כמה משימות שימור משולמות בכרטיס אשראי?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND paymentType = 'כרטיס אשראי'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "64",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 64 משימות שימור משולמות בכרטיס אשראי."
+      }
+    }
+  ],
+  "Trajectory56": [
+    {
+      "question_id": 56,
+      "question": "מהן סיבות הביטול השכיחות ביותר במשימות השימור?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT cancellationReasonDescription, COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' GROUP BY cancellationReasonDescription ORDER BY COUNT(*) DESC LIMIT 3",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "אי תשלום 22; מעבר לחברה אחרת 18; צמצום הוצאות 15",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, סיבות הביטול הנפוצות הן: אי תשלום, מעבר לחברה אחרת וצמצום הוצאות."
+      }
+    }
+  ],
+  "Trajectory57": [
+    {
+      "question_id": 57,
+      "question": "כמה משימות נשלחו לתהליך דיגיטלי?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND retentionStatus = 'נשלח תהליך דיגיטלי'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "72",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 72 משימות שימור נשלחו לתהליך דיגיטלי."
+      }
+    }
+  ],
+  "Trajectory58": [
+    {
+      "question_id": 58,
+      "question": "כמה פוליסות שימור בסטטוס \"לא שולם מעולם\"?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT COUNT(*) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND policyType = 'לא שולם מעולם'",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "39",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, 39 פוליסות שימור מעולם לא שולם עבורן."
+      }
+    }
+  ],
+  "Trajectory59": [
+    {
+      "question_id": 59,
+      "question": "מהו סכום המשיכה הממוצע בבקשות ביטול?",
+      "question_type": "TEXT2SQL",
+      "ground_truth": {
+        "ground_truth_sql_query": "SELECT AVG(withdrawlAmount) FROM migdal_zone_tasks.preserve WHERE partition_user_id = '1' AND withdrawlAmount IS NOT NULL",
+        "ground_truth_sql_context": "[{\"table_name\": \"migdal_zone_tasks.preserve\"}]",
+        "ground_truth_query_result": "1843.32",
+        "ground_truth_answer": "לפי הבדיקה שביצעתי, סכום המשיכה הממוצע בבקשות ביטול הוא ‎1,843.32 ש\"ח."
+      }
+    }
+  ]
+}

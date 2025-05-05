@@ -62,13 +62,13 @@ def get_config() -> Dict[str, Any]:
     )
 
     shared_clients = {
-        'bedrock_agent_client': boto3.client("bedrock-agent", region_name="eu-west-1"),
+        'bedrock_agent_client': boto3.client("bedrock-agent", region_name="us-east-1"),
         'bedrock_agent_runtime': boto3.client(
             'bedrock-agent-runtime', 
-            region_name="eu-west-1",
+            region_name="us-east-1",
             config=bedrock_config
         ),
-        'bedrock_runtime': boto3.client('bedrock-runtime', region_name="eu-west-1")
+        'bedrock_runtime': boto3.client('bedrock-runtime', region_name="us-east-1")
     }
     
 
