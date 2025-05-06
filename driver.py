@@ -23,6 +23,8 @@ AGENT_ID = os.getenv('AGENT_ID')
 
 AGENT_ALIAS_ID = os.getenv('AGENT_ALIAS_ID')
 
+AWS_BEDROCK_REGION = os.getenv('AWS_BEDROCK_REGION')
+
 #LANGFUSE SETUP
 LANGFUSE_PUBLIC_KEY = os.getenv('LANGFUSE_PUBLIC_KEY')
 LANGFUSE_SECRET_KEY = os.getenv('LANGFUSE_SECRET_KEY')
@@ -62,13 +64,13 @@ def get_config() -> Dict[str, Any]:
     )
 
     shared_clients = {
-        'bedrock_agent_client': boto3.client("bedrock-agent", region_name="us-east-1"),
+        'bedrock_agent_client': boto3.client("bedrock-agent", region_name=AWS_BEDROCK_REGION),
         'bedrock_agent_runtime': boto3.client(
             'bedrock-agent-runtime', 
-            region_name="us-east-1",
+            region_name=AWS_BEDROCK_REGION,
             config=bedrock_config
         ),
-        'bedrock_runtime': boto3.client('bedrock-runtime', region_name="us-east-1")
+        'bedrock_runtime': boto3.client('bedrock-runtime', region_name=AWS_BEDROCK_REGION)
     }
     
 
